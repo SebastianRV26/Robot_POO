@@ -17,18 +17,18 @@ import java.util.Date;
  * @author Sebas
  */
 public class Swimwear extends Article{
-    private int cantPieces;
+    private String cantPieces;
 
-    public Swimwear(int ID, int price, String name, String color, int quantity, int cantPieces) {
+    public Swimwear(int ID, int price, String name, String color, int quantity, String cantPieces) {
         super(ID, price, name, color,  quantity);
         this.cantPieces = cantPieces;
     }
 
-    public int getCantPieces() {
+    public String getCantPieces() {
         return cantPieces;
     }
 
-    public void setCantPieces(int cantPieces) {
+    public void setCantPieces(String cantPieces) {
         this.cantPieces = cantPieces;
     }
 

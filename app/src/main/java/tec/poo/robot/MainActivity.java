@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
         Socks son = new Socks (160, 1000, "Medias", "negro", 10,"cortas");
         inventory.setArticles(soa, sob, son);
 
-        Swimwear swa = new Swimwear(170, 6000, "Traje de baño", "azul", 5, 2);
-        Swimwear swb = new Swimwear(180, 6000, "Traje de baño", "blanco", 5, 2);
-        Swimwear swn = new Swimwear(190, 6000, "Traje de baño", "negro", 5, 2);
+        Swimwear swa = new Swimwear(170, 6000, "Traje de baño", "azul", 5, "2");
+        Swimwear swb = new Swimwear(180, 6000, "Traje de baño", "blanco", 5, "2");
+        Swimwear swn = new Swimwear(190, 6000, "Traje de baño", "negro", 5, "2");
         inventory.setArticles(swa, swb, swn);
 
         T_Shirt ta = new T_Shirt(200, 5000, "Camiseta", "azul", 10, "manga corta");
