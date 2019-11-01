@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".sigIn"></activity>
+        <activity android:name=".editArticle"></activity>
+        <activity android:name=".deleteArticle" />
+        <activity android:name=".sigIn" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">

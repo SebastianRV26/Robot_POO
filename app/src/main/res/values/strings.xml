@@ -3,7 +3,7 @@
     <string name="start">Start</string>
     <string name="getOut">Get Out</string>
     <string name="title_activity_login">Log in</string>
-    <string name="username">Nombre de usuario</string>
+    <string name="username">Username</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_login">Log in</string>
     <string name="action_sign_in_short">Log in</string>
@@ -18,4 +18,12 @@
     <string name="adress">Dirección: </string>
     <string name="postal">Código postal</string>
     <string name="cardNum">Número de tarjeta</string>
+    <string name="newname">Nuevo nombre: </string>
+    <string name="newlastName">Nuevo apellido: </string>
+    <string name="newusername">Nuevo username</string>
+    <string name="newpasword">Nueva ontraseña: </string>
+    <string name="newadress">Nueva dirección: </string>
+    <string name="newpostal">Nuevo código postal</string>
+    <string name="newcardNum">Nuevo número de tarjeta</string>
+    <string name="edit">Guardar cambios</string>
 </resources>
