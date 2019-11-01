@@ -54,14 +54,16 @@ public class MainActivity extends AppCompatActivity {
         this.reservation = new Reservation("Reservation"); //único apartado existente
 
         clients = new ArrayList<>();
-        Client sebas = new Client("Sebastian", "sebas", 208200987, "Pital", "1");
+        /*
+        Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital",);
         clients.add(sebas);
-        Client daya = new Client("Dayana","daya", 10,"Pital", "1");
+        Client daya = new Client("Dayana","daya", "R","Pital", "1");
         clients.add(daya);
-        Client brian = new Client("Brayan","brian", 20,"Pital", "1");
+        Client brian = new Client("Brayan","brian", "Pérez","Pital", "1");
         clients.add(brian);
-        Client huber = new Client("Huber","huber", 30,"Santa Clara", "1");
+        Client huber = new Client("Huber","huber", "Espinoza","Santa Clara", "1");
         clients.add(huber);
+         */
 
         Blouse ba = new Blouse(111, 7000, "Blusa", "azul", 10, "largo");
         Blouse bb = new Blouse(222, 8000, "Blusa", "blanco", 10, "largo");

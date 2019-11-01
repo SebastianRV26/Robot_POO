@@ -5,6 +5,8 @@
  */
 package Models;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Sebas
@@ -12,16 +14,21 @@ package Models;
 public class Client {
     private String name;
     private String username;
-    private int ID;
+    private String lastName;
     private String direction;
     private String pasword;
+    private String postalApart;
+    private int cardNumber;
+    private ArrayList<Article> articles = new ArrayList<>();
 
-    public Client(String name, String username, int ID, String direction, String pasword) {
+    public Client(String name, String lastName, String username,  String pasword, String direction, String postalApart,  int cardNumber) {
         this.name = name;
         this.username = username;
-        this.ID = ID;
+        this.lastName = lastName;
         this.direction = direction;
         this.pasword = pasword;
+        this.postalApart = postalApart;
+        this.cardNumber = cardNumber;
     }
 
     public String getName() {
@@ -40,12 +47,12 @@ public class Client {
         this.username = username;
     }
 
-    public int getID() {
-        return ID;
+    public String getID() {
+        return this.lastName;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDirection() {
@@ -59,7 +66,40 @@ public class Client {
     public String getPasword(){
         return this.pasword;
     }
+
     public void setPasword(String pasword){
         this.pasword = pasword;
+    }
+
+    public int getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(int cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPostalApart() {
+        return postalApart;
+    }
+
+    public void setPostalApart(String postalApart) {
+        this.postalApart = postalApart;
+    }
+
+    public ArrayList<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(Article article) {
+        this.articles.add(article);
     }
 }
