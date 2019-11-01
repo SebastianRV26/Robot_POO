@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     /** Speech to text**/
     private static final int REQUEST_CODE = 1234;
     private Button startButton;
+    private Button edittButton;
+    private Button deletetButton;
+
     //private Button getOutButton;
 
     /** Text to speech**/
@@ -54,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
         this.reservation = new Reservation("Reservation"); //único apartado existente
 
         clients = new ArrayList<>();
-        /*
-        Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital",);
+
+        Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital","123",1);
         clients.add(sebas);
-        Client daya = new Client("Dayana","daya", "R","Pital", "1");
+        Client daya = new Client("Dayana","Rojas", "daya","1", "Pital","123",1);
         clients.add(daya);
-        Client brian = new Client("Brayan","brian", "Pérez","Pital", "1");
+        Client brian = new Client("Brayan","Perez", "casa","1", "Pital","123",1);
         clients.add(brian);
-        Client huber = new Client("Huber","huber", "Espinoza","Santa Clara", "1");
+        Client huber = new Client("Huber","Espinoza", "huber","1", "Santa Clara","123",1);
         clients.add(huber);
-         */
+
 
         Blouse ba = new Blouse(111, 7000, "Blusa", "azul", 10, "largo");
         Blouse bb = new Blouse(222, 8000, "Blusa", "blanco", 10, "largo");
@@ -138,6 +141,30 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(getApplicationContext(),"Por favor, conectarse a Internet", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        edittButton = findViewById(R.id.btnEdit);
+        //getOutButton = findViewById(R.id.btnGetOut);
+
+        //Click event for start button
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, editArticle.class);
+                startActivity(i);
+            }
+        });
+
+        deletetButton = findViewById(R.id.btnDelete);
+        //getOutButton = findViewById(R.id.btnGetOut);
+
+        //Click event for start button
+        deletetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, deleteArticle.class);
+                startActivity(i);
             }
         });
     }

@@ -16,6 +16,7 @@ import Models.Client;
 public class LoginActivity extends AppCompatActivity {
     //variable globals
     private Button loginButton;
+    private Button sigIntButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //constructor
@@ -45,6 +46,18 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+        sigIntButton = findViewById(R.id.btnSigIn);
+        //getOutButton = findViewById(R.id.btnGetOut);
+
+        //Click event for start button
+        sigIntButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, sigIn.class);
+                startActivity(i);
+            }
+        });
+
     }
 
 }

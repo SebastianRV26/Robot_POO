@@ -26,4 +26,7 @@
     <string name="newpostal">Nuevo código postal</string>
     <string name="newcardNum">Nuevo número de tarjeta</string>
     <string name="edit">Guardar cambios</string>
+    <string name="editbtn">Editar artículos</string>
+    <string name="deletebtn">Eliminar artículos</string>
+
 </resources>
