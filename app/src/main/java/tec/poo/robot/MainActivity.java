@@ -56,18 +56,6 @@ public class MainActivity extends AppCompatActivity {
         this.inventory = new Inventory("Inventory"); //único inventario existente
         this.reservation = new Reservation("Reservation"); //único apartado existente
 
-        clients = new ArrayList<>();
-
-        Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital","123",1);
-        clients.add(sebas);
-        Client daya = new Client("Dayana","Rojas", "daya","1", "Pital","123",1);
-        clients.add(daya);
-        Client brian = new Client("Brayan","Perez", "casa","1", "Pital","123",1);
-        clients.add(brian);
-        Client huber = new Client("Huber","Espinoza", "huber","1", "Santa Clara","123",1);
-        clients.add(huber);
-
-
         Blouse ba = new Blouse(111, 7000, "Blusa", "azul", 10, "largo");
         Blouse bb = new Blouse(222, 8000, "Blusa", "blanco", 10, "largo");
         Blouse bn = new Blouse(333, 8000, "Blusa", "negro", 10, "largo");
@@ -148,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         //getOutButton = findViewById(R.id.btnGetOut);
 
         //Click event for start button
-        startButton.setOnClickListener(new View.OnClickListener() {
+        edittButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, editArticle.class);
@@ -527,4 +515,29 @@ public class MainActivity extends AppCompatActivity {
         return invent;
     }
 
+    public static void initialUsers(){
+        clients = new ArrayList<>();
+        Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital","123",1);
+        clients.add(sebas);
+        Client daya = new Client("Dayana","Rojas", "daya","1", "Pital","123",1);
+        clients.add(daya);
+        Client brian = new Client("Brayan","Perez", "casa","1", "Pital","123",1);
+        clients.add(brian);
+        Client huber = new Client("Huber","Espinoza", "huber","1", "Santa Clara","123",1);
+        clients.add(huber);
+    }
+
+    public static int login (String username, String password){
+        for (Client c : MainActivity.clients){
+            if (c.getUsername().equals(username)){
+
+                if (c.getPasword().equals(password)){
+                    return 0;
+                }
+                return 1;
+
+            }
+        }
+        return 2;
+    }
 }
