@@ -45,7 +45,7 @@ public class sigIn extends AppCompatActivity {
 
                 //sigin the new user and add at the list in the mainActivity
                 Client client = new Client(lblname.getText().toString(), lbllastName.getText().toString(), lblusername.getText().toString(),
-                        lblpasword.getText().toString(), lbladress.getText().toString(), lblpostal.getText().toString(), entero);
+                        lblpasword.getText().toString(), lbladress.getText().toString(), lblpostal.getText().toString(), entero, false);
                 MainActivity.clients.add(client);
 
             }

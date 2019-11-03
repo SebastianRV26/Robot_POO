@@ -7,163 +7,131 @@
     tools:context=".editArticle">
 
     <LinearLayout
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-53dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Artículo ID..." >
+
+                <requestFocus />
+            </EditText>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="OK"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Artículo"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:layout_editor_absoluteX="120dp"
+            tools:layout_editor_absoluteY="72dp" />
+
+        <EditText
+            android:id="@+id/lblarticle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Artículo"
+            android:inputType="none"
+            android:focusable="false"
+            />
+
+        <TextView
+            android:id="@+id/color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Color"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:layout_editor_absoluteX="120dp"
+            tools:layout_editor_absoluteY="72dp" />
+
+        <EditText
+            android:id="@+id/lblcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Color"
+            android:inputType="none"
+            android:focusable="false"
+            />
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precio"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:layout_editor_absoluteX="119dp"
+            tools:layout_editor_absoluteY="155dp" />
+
+        <EditText
+            android:id="@+id/lblprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="189dp" />
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cantidad"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:layout_editor_absoluteX="119dp"
+            tools:layout_editor_absoluteY="155dp" />
+
+        <EditText
+            android:id="@+id/lblquantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="189dp" />
+
+        <Button
+            android:id="@+id/btnsave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/edit"
+            app:backgroundTint="@color/green" />
+
         <AutoCompleteTextView
-            android:layout_weight="1"
             android:id="@+id/edit_ip"
-            android:text="default value"
             android:layout_width="0dp"
-            android:layout_height= "wrap_content"/>
-        <Spinner
-            android:layout_marginRight="20dp"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:id="@+id/spinner_ip"
-            android:spinnerMode="dropdown"
-            android:entries="@string/start"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="default value" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/newname"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="72dp" />
-
-    <EditText
-        android:id="@+id/lblname"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="74dp"
-        tools:layout_editor_absoluteY="106dp" />
-
-    <TextView
-        android:id="@+id/lastName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/newlastName"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="119dp"
-        tools:layout_editor_absoluteY="155dp" />
-
-    <EditText
-        android:id="@+id/lbllastname"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="189dp" />
-
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/newusername"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="119dp"
-        tools:layout_editor_absoluteY="244dp" />
-
-    <EditText
-        android:id="@+id/lblusername"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="278dp" />
-
-    <TextView
-        android:id="@+id/pasword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/newpasword"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="333dp" />
-
-    <EditText
-        android:id="@+id/lblpasword"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="367dp" />
-
-    <TextView
-        android:id="@+id/adress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/newadress"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="112dp"
-        tools:layout_editor_absoluteY="415dp" />
-
-    <EditText
-        android:id="@+id/lbladress"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="449dp" />
-
-    <TextView
-        android:id="@+id/postal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/newpostal"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="503dp" />
-
-    <EditText
-        android:id="@+id/lblpostal"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="537dp" />
-
-    <TextView
-        android:id="@+id/cardNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/newcardNum"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="67dp"
-        tools:layout_editor_absoluteY="583dp" />
-
-    <EditText
-        android:id="@+id/lblcardnumber"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="617dp" />
-
-    <Button
-        android:id="@+id/btnsave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/edit"
-        app:backgroundTint="@color/green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
 </androidx.constraintlayout.widget.ConstraintLayout>

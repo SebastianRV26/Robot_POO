@@ -19,9 +19,10 @@ public class Client {
     private String pasword;
     private String postalApart;
     private int cardNumber;
+    private boolean type;
     private ArrayList<Article> articles = new ArrayList<>();
 
-    public Client(String name, String lastName, String username,  String pasword, String direction, String postalApart,  int cardNumber) {
+    public Client(String name, String lastName, String username,  String pasword, String direction, String postalApart,  int cardNumber, boolean type) {
         this.name = name;
         this.username = username;
         this.lastName = lastName;
@@ -29,6 +30,7 @@ public class Client {
         this.pasword = pasword;
         this.postalApart = postalApart;
         this.cardNumber = cardNumber;
+        this.type = type;
     }
 
     public String getName() {
@@ -93,6 +95,14 @@ public class Client {
 
     public void setPostalApart(String postalApart) {
         this.postalApart = postalApart;
+    }
+
+    public boolean getType() {
+        return type;
+    }
+
+    public void setType(boolean type) {
+        this.type = type;
     }
 
     public ArrayList<Article> getArticles() {

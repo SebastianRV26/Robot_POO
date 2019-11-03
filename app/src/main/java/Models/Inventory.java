@@ -16,6 +16,13 @@ public class Inventory {
     private String name;
     private ArrayList<Article>articles = new ArrayList<>();
 
+    private static Inventory instance = null;
+    public static Inventory getInstance(){
+        if (instance == null){
+            instance = new Inventory("Inventory");
+        }
+        return instance;
+    }
     public Inventory(String name) {
         this.name = name;
     }

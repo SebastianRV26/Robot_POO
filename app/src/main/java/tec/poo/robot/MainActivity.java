@@ -27,15 +27,13 @@ public class MainActivity extends AppCompatActivity {
     /** Speech to text**/
     private static final int REQUEST_CODE = 1234;
     private Button startButton;
-    private Button edittButton;
-    private Button deletetButton;
 
     //private Button getOutButton;
 
     /** Text to speech**/
     TextToSpeech textToSpeech;
 
-    public static Inventory inventory;
+    public static Inventory inventory = Inventory.getInstance();
     public static Reservation reservation;
     public static String email;
     public static Date date;
@@ -53,60 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         this.date = new Date();
         this.email = "";
-        this.inventory = new Inventory("Inventory"); //único inventario existente
         this.reservation = new Reservation("Reservation"); //único apartado existente
 
-        Blouse ba = new Blouse(111, 7000, "Blusa", "azul", 10, "largo");
-        Blouse bb = new Blouse(222, 8000, "Blusa", "blanco", 10, "largo");
-        Blouse bn = new Blouse(333, 8000, "Blusa", "negro", 10, "largo");
-        inventory.setArticles(ba, bb, bn); //se agregan de 3 en 3
 
-        Cap ca = new Cap (444,2500, "Gorra", "azul", 10, "deportiva");
-        Cap cb = new Cap (555,2000, "Gorra", "blanco", 10, "deportiva");
-        Cap cn = new Cap (666,2500, "Gorra", "negro", 10, "deportiva");
-        inventory.setArticles(ca, cb, cn);
-
-        Coat coa = new Coat (777, 4000,"Abrigo", "azul", 10, "deportivo");
-        Coat cob = new Coat (888, 4000,"Abrigo", "blanco", 10, "deportivo");
-        Coat con = new Coat (999, 4000,"Abrigo", "negro", 10, "deportivo");
-        inventory.setArticles(coa, cob, con);
-
-        Dress da = new Dress (101, 7000, "Vestido", "azul", 10,"largo");
-        Dress db = new Dress (202, 7000, "Vestido", "blanco", 10,"largo");
-        Dress dn = new Dress (303, 7000, "Vestido", "negro", 10,"largo");
-        inventory.setArticles(da, db, dn);
-
-        Pant pa = new Pant (404, 10000, "Pantalón", "azul", 20, "mezquilla");
-        Pant pb = new Pant (505, 10000, "Pantalón", "blanco", 20, "mezquilla");
-        Pant pn = new Pant (606, 10000, "Pantalón", "negro", 20, "mezquilla");
-        inventory.setArticles(pa, pb, pn);
-
-        Shirt sa = new Shirt (707, 5000, "Camisa", "azul", 15, "manga corta");
-        Shirt sb = new Shirt (808, 5000, "Camisa", "blanco", 15, "manga corta");
-        Shirt sn = new Shirt (909, 5000, "Camisa", "negro", 15, "manga corta");
-        inventory.setArticles(sa, sb, sn);
-
-        Short1 sha = new Short1 (110, 4000,"Short", "azul", 5, "mezquilla");
-        Short1 shb = new Short1 (120, 4000,"Short", "blanco", 5, "mezquilla");
-        Short1 shn = new Short1 (130, 4000,"Short", "negro", 5, "mezquilla");
-        inventory.setArticles(sha, shb, shn);
-
-        Socks soa = new Socks (140, 1000, "Medias", "azul", 10,"cortas");
-        Socks sob = new Socks (150, 1000, "Medias", "blanco", 10,"cortas");
-        Socks son = new Socks (160, 1000, "Medias", "negro", 10,"cortas");
-        inventory.setArticles(soa, sob, son);
-
-        Swimwear swa = new Swimwear(170, 6000, "Traje de baño", "azul", 5, "2");
-        Swimwear swb = new Swimwear(180, 6000, "Traje de baño", "blanco", 5, "2");
-        Swimwear swn = new Swimwear(190, 6000, "Traje de baño", "negro", 5, "2");
-        inventory.setArticles(swa, swb, swn);
-
-        T_Shirt ta = new T_Shirt(200, 5000, "Camiseta", "azul", 10, "manga corta");
-        T_Shirt tb = new T_Shirt(200, 5000, "Camiseta", "banco", 10, "manga corta");
-        T_Shirt tn = new T_Shirt(200, 5000, "Camiseta", "negro", 10, "manga corta");
-        inventory.setArticles(ta, tb, tn);
-
-        inventoryInitial=runInventory();
 
         //Set language
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -132,29 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        edittButton = findViewById(R.id.btnEdit);
-        //getOutButton = findViewById(R.id.btnGetOut);
 
-        //Click event for start button
-        edittButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, editArticle.class);
-                startActivity(i);
-            }
-        });
-
-        deletetButton = findViewById(R.id.btnDelete);
-        //getOutButton = findViewById(R.id.btnGetOut);
-
-        //Click event for start button
-        deletetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, deleteArticle.class);
-                startActivity(i);
-            }
-        });
     }
 
     @Override
@@ -507,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    public String runInventory(){
+    public static String runInventory(){
         String invent="";
         for (Article a : inventory.getArticles()){
             invent+=a.getName()+" "+a.getColor()+ ": "+a.getQuantity()+"\n";
@@ -515,29 +440,90 @@ public class MainActivity extends AppCompatActivity {
         return invent;
     }
 
-    public static void initialUsers(){
+    public static void initialUsers() {
         clients = new ArrayList<>();
-        Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital","123",1);
+        Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital", "123", 1, false); //true admin, false client
         clients.add(sebas);
-        Client daya = new Client("Dayana","Rojas", "daya","1", "Pital","123",1);
+        Client daya = new Client("Dayana", "Rojas", "daya", "123", "Pital", "123", 1, false); //client
         clients.add(daya);
-        Client brian = new Client("Brayan","Perez", "casa","1", "Pital","123",1);
+        Client brian = new Client("Brayan", "Perez", "casa", "123", "Pital", "123", 1, false); //client
         clients.add(brian);
-        Client huber = new Client("Huber","Espinoza", "huber","1", "Santa Clara","123",1);
+        Client huber = new Client("Huber", "Espinoza", "huberep", "123", "Santa Clara", "123", 1, true); //admin
         clients.add(huber);
+
+        Inventory inventory= Inventory.getInstance();
+
+        Blouse ba = new Blouse(111, 7000, "Blusa", "azul", 10, "largo");
+        Blouse bb = new Blouse(222, 8000, "Blusa", "blanco", 10, "largo");
+        Blouse bn = new Blouse(333, 8000, "Blusa", "negro", 10, "largo");
+        inventory.setArticles(ba, bb, bn); //se agregan de 3 en 3
+
+        Cap ca = new Cap (444,2500, "Gorra", "azul", 10, "deportiva");
+        Cap cb = new Cap (555,2000, "Gorra", "blanco", 10, "deportiva");
+        Cap cn = new Cap (666,2500, "Gorra", "negro", 10, "deportiva");
+        inventory.setArticles(ca, cb, cn);
+
+        Coat coa = new Coat (777, 4000,"Abrigo", "azul", 10, "deportivo");
+        Coat cob = new Coat (888, 4000,"Abrigo", "blanco", 10, "deportivo");
+        Coat con = new Coat (999, 4000,"Abrigo", "negro", 10, "deportivo");
+        inventory.setArticles(coa, cob, con);
+
+        Dress da = new Dress (101, 7000, "Vestido", "azul", 10,"largo");
+        Dress db = new Dress (202, 7000, "Vestido", "blanco", 10,"largo");
+        Dress dn = new Dress (303, 7000, "Vestido", "negro", 10,"largo");
+        inventory.setArticles(da, db, dn);
+
+        Pant pa = new Pant (404, 10000, "Pantalón", "azul", 20, "mezquilla");
+        Pant pb = new Pant (505, 10000, "Pantalón", "blanco", 20, "mezquilla");
+        Pant pn = new Pant (606, 10000, "Pantalón", "negro", 20, "mezquilla");
+        inventory.setArticles(pa, pb, pn);
+
+        Shirt sa = new Shirt (707, 5000, "Camisa", "azul", 15, "manga corta");
+        Shirt sb = new Shirt (808, 5000, "Camisa", "blanco", 15, "manga corta");
+        Shirt sn = new Shirt (909, 5000, "Camisa", "negro", 15, "manga corta");
+        inventory.setArticles(sa, sb, sn);
+
+        Short1 sha = new Short1 (110, 4000,"Short", "azul", 5, "mezquilla");
+        Short1 shb = new Short1 (120, 4000,"Short", "blanco", 5, "mezquilla");
+        Short1 shn = new Short1 (130, 4000,"Short", "negro", 5, "mezquilla");
+        inventory.setArticles(sha, shb, shn);
+
+        Socks soa = new Socks (140, 1000, "Medias", "azul", 10,"cortas");
+        Socks sob = new Socks (150, 1000, "Medias", "blanco", 10,"cortas");
+        Socks son = new Socks (160, 1000, "Medias", "negro", 10,"cortas");
+        inventory.setArticles(soa, sob, son);
+
+        Swimwear swa = new Swimwear(170, 6000, "Traje de baño", "azul", 5, "2");
+        Swimwear swb = new Swimwear(180, 6000, "Traje de baño", "blanco", 5, "2");
+        Swimwear swn = new Swimwear(190, 6000, "Traje de baño", "negro", 5, "2");
+        inventory.setArticles(swa, swb, swn);
+
+        T_Shirt ta = new T_Shirt(200, 5000, "Camiseta", "azul", 10, "manga corta");
+        T_Shirt tb = new T_Shirt(200, 5000, "Camiseta", "banco", 10, "manga corta");
+        T_Shirt tn = new T_Shirt(200, 5000, "Camiseta", "negro", 10, "manga corta");
+        inventory.setArticles(ta, tb, tn);
+
+        inventoryInitial=runInventory();
     }
 
-    public static int login (String username, String password){
+    public static Client login (String username, String password){
         for (Client c : MainActivity.clients){
             if (c.getUsername().equals(username)){
 
                 if (c.getPasword().equals(password)){
-                    return 0;
+                    return c;
                 }
-                return 1;
-
+                return null;
             }
         }
-        return 2;
+        return null;
+    }
+
+    public static Article searchArticle (int ID){
+        for (Article i : inventory.getArticles()){
+            if (i.getID() == ID)
+                return i;
+        }
+        return null;
     }
 }

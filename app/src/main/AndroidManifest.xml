@@ -12,7 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".editArticle" />
+        <activity android:name=".manager"></activity>
+        <activity
+            android:name=".editArticle"
+            android:theme="@style/AppTheme.NoActionBar"> <!-- Quit the bar -->
+
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".deleteArticle" />
         <activity android:name=".sigIn" />
         <activity
@@ -24,9 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

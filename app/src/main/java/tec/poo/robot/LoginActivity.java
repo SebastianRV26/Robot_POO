@@ -25,8 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) { //constructor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        usernameText = findViewById(R.id.username);
-        passwordText = findViewById(R.id.password);
+
         //ProgressBar loadingProgressBar = findViewById(R.id.loading);
         MainActivity.initialUsers();
         //buttons
@@ -36,16 +35,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                int res  = MainActivity.login(usernameText.getText().toString(), passwordText.getText().toString());
-                if (res==0){
-                    //change view
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(i);
-                }
-                else if (res==1){
-                    Toast.makeText(getApplicationContext(),"La contraseña no coincide con el nombre de usuario", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Usuario no encontrado", Toast.LENGTH_LONG).show();
+                usernameText = findViewById(R.id.username);
+                passwordText = findViewById(R.id.password);
+                if ((usernameText!=null) && (passwordText!=null)) {
+                    Client res = MainActivity.login(usernameText.getText().toString(), passwordText.getText().toString());
+                    if (res != null) {
+                        //change view
+                        if (res.getType()==false) {
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(i);
+                        }else{
+                            Intent i = new Intent(LoginActivity.this, manager.class);
+                            startActivity(i);
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Usuario no encontrado", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });

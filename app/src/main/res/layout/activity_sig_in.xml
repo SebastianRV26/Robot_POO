@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".sigIn">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-53dp">
+
+
     <TextView
         android:id="@+id/sigIn"
         android:layout_width="wrap_content"
@@ -30,8 +39,9 @@
 
     <EditText
         android:id="@+id/lblname"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
         tools:layout_editor_absoluteX="74dp"
         tools:layout_editor_absoluteY="106dp" />
 
@@ -48,8 +58,9 @@
 
     <EditText
         android:id="@+id/lbllastname"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="189dp" />
 
@@ -66,8 +77,9 @@
 
     <EditText
         android:id="@+id/lblusername"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="278dp" />
 
@@ -82,14 +94,15 @@
         tools:layout_editor_absoluteX="127dp"
         tools:layout_editor_absoluteY="333dp" />
 
-    <EditText
-        android:id="@+id/lblpasword"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="367dp" />
+        <EditText
+            android:id="@+id/lblpasword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="367dp" />
 
-    <TextView
+        <TextView
         android:id="@+id/adress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,8 +115,9 @@
 
     <EditText
         android:id="@+id/lbladress"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="449dp" />
 
@@ -120,8 +134,9 @@
 
     <EditText
         android:id="@+id/lblpostal"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="537dp" />
 
@@ -138,8 +153,9 @@
 
     <EditText
         android:id="@+id/lblcardnumber"
-        android:layout_width="243dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="617dp" />
 
@@ -158,4 +174,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
+        <AutoCompleteTextView
+            android:id="@+id/edit_ip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="default value" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

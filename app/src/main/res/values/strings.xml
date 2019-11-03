@@ -30,4 +30,9 @@
     <string name="editbtn">Editar artículos</string>
     <string name="deletebtn">Eliminar artículos</string>
 
+
+    <string-array name="myarray">
+        <item>value1</item>
+        <item>value2</item>
+    </string-array>
 </resources>
