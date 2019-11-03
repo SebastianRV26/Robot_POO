@@ -13,16 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".manager" />
-        <activity
-            android:name=".editArticle"
-            android:theme="@style/AppTheme.NoActionBar"> <!-- Quit the bar -->
-
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".editArticle"/>
         <activity android:name=".deleteArticle" />
-        <activity android:name=".sigIn" />
+        <activity android:name=".sigIn"
+            android:theme="@style/AppTheme.NoActionBar"> <!-- Quit the bar -->
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">

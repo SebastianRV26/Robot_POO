@@ -16,6 +16,7 @@ public class editArticle extends AppCompatActivity {
     private EditText IDText;
     private Button editebutton;
     private Button search;
+    private Button before;
     private EditText articlename;
     private EditText articlecolor;
     private EditText articleprice;
@@ -68,6 +69,16 @@ public class editArticle extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Artículo no encontrado", Toast.LENGTH_LONG).show();
                 }
                 Toast.makeText(getApplicationContext(), "Digite un ID válido", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        before = findViewById(R.id.btnBefore);
+        //Click event for start button
+        before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(editArticle.this, manager.class);
+                startActivity(i);
             }
         });
     }

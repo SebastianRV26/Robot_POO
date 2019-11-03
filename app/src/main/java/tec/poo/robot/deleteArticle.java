@@ -17,6 +17,7 @@ public class deleteArticle extends AppCompatActivity {
     private EditText IDText;
     private Button deleteButton;
     private Button search;
+    private Button before;
     private EditText articlename;
     private EditText articlecolor;
     @Override
@@ -28,7 +29,7 @@ public class deleteArticle extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IDText = findViewById(R.id.editText);
+                IDText = findViewById(R.id.delete);
                 if (IDText != null) {
                     Article a = MainActivity.searchArticle(Integer.parseInt(IDText.getText().toString()));
                     if (a!=null){
@@ -61,6 +62,16 @@ public class deleteArticle extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Artículo no encontrado", Toast.LENGTH_LONG).show();
                 }
                 Toast.makeText(getApplicationContext(), "Digite un ID válido", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        before = findViewById(R.id.btnBefore);
+        //Click event for start button
+        before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(deleteArticle.this, manager.class);
+                startActivity(i);
             }
         });
     }

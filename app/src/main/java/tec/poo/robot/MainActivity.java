@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     /** Speech to text**/
     private static final int REQUEST_CODE = 1234;
     private Button startButton;
+    private Button before;
 
     //private Button getOutButton;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static Reservation reservation;
     public static String email;
     public static Date date;
-    public static ArrayList<Client> clients;
+    public static ArrayList<Client> clients = new ArrayList<>();
     public static Client clientActually; //cliente que actialmente está comprando
     public static String inventoryInitial = "Inventario Inicial \n";
     public static String inventoryFinal = "Inventario Final \n";
@@ -79,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        before = findViewById(R.id.btnBefore);
+        //Click event for start button
+        before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -441,7 +451,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void initialUsers() {
-        clients = new ArrayList<>();
         Client sebas = new Client("Sebastian", "Rojas", "sebas", "1", "Pital", "123", 1, false); //true admin, false client
         clients.add(sebas);
         Client daya = new Client("Dayana", "Rojas", "daya", "123", "Pital", "123", 1, false); //client

@@ -11,6 +11,7 @@ public class manager extends AppCompatActivity {
 
     private Button edittButton;
     private Button deletetButton;
+    private Button before;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,16 @@ public class manager extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(manager.this, deleteArticle.class);
+                startActivity(i);
+            }
+        });
+
+        before = findViewById(R.id.btnBefore);
+        //Click event for start button
+        before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(manager.this, LoginActivity.class);
                 startActivity(i);
             }
         });
