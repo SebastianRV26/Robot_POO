@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:digits="1234567890"
                 android:hint="  ID Artículo..." >
 
                 <requestFocus />
@@ -58,7 +59,10 @@
             android:hint="Artículo"
             android:inputType="none"
             android:focusable="false"
-            />
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusableInTouchMode="false"
+        />
 
         <TextView
             android:id="@+id/color"
@@ -78,8 +82,10 @@
             android:ems="10"
             android:hint="Color"
             android:inputType="none"
+            android:clickable="false"
+            android:cursorVisible="false"
             android:focusable="false"
-            />
+            android:focusableInTouchMode="false"            />
 
         <Button
             android:id="@+id/btndel"

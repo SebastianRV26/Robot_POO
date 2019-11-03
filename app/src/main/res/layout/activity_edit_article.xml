@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:digits="1234567890"
                 android:ems="10"
                 android:hint="Artículo ID..." >
 
@@ -31,7 +32,7 @@
             </EditText>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/okbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -117,7 +118,7 @@
             tools:layout_editor_absoluteY="189dp" />
 
         <Button
-            android:id="@+id/btnsave"
+            android:id="@+id/btnedit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

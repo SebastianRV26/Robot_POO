@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +28,7 @@ public class deleteArticle extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IDText = findViewById(R.id.delete);
+                IDText = findViewById(R.id.editText);
                 if (IDText != null) {
                     Article a = MainActivity.searchArticle(Integer.parseInt(IDText.getText().toString()));
                     if (a!=null){
@@ -35,6 +36,7 @@ public class deleteArticle extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Artículo eliminado correctamente", Toast.LENGTH_LONG).show();
                         Intent i = new Intent(deleteArticle.this, manager.class);
                         startActivity(i);
+                        return;
                     }
                     Toast.makeText(getApplicationContext(), "Artículo no encontrado", Toast.LENGTH_LONG).show();
                 }
@@ -46,12 +48,15 @@ public class deleteArticle extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                articlename = findViewById(R.id.lblarticle);
+                articlecolor = findViewById(R.id.lblcolor);
                 IDText = findViewById(R.id.delete);
                 if (IDText != null) {
                     Article a = MainActivity.searchArticle(Integer.parseInt(IDText.getText().toString()));
                     if (a!=null){
                         articlename.setText(a.getName());
                         articlecolor.setText(a.getColor());
+                        return;
                     }
                     Toast.makeText(getApplicationContext(), "Artículo no encontrado", Toast.LENGTH_LONG).show();
                 }
