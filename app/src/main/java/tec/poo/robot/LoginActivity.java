@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (res != null) {
                         //change view
                         if (res.getType()==false) {
+                            MainActivity.clientActually = res;
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);
                         }else{

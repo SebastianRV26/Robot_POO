@@ -88,14 +88,17 @@ public class addArticle extends AppCompatActivity {
                     num=10;
                     tipo = "manga corta";
                 }
-
                 ArticleFactory factory = new ArticleFactory();
-                //int ID, int price, String name, String color, int quantity, String tipo
-                if (factory.maker(num, Integer.parseInt(articleid.getText().toString()),
-                        Integer.parseInt(articleprice.getText().toString()), articlename, articlecolor,
-                        Integer.parseInt(articlequantity.getText().toString()), tipo)){
-                    Toast.makeText(getApplicationContext(),"Artículo agregado correctamente!", Toast.LENGTH_LONG).show();
-                    return;
+                try {
+                    //int ID, int price, String name, String color, int quantity, String tipo
+                    if (factory.maker(num, Integer.parseInt(articleid.getText().toString()),
+                            Integer.parseInt(articleprice.getText().toString()), articlename, articlecolor,
+                            Integer.parseInt(articlequantity.getText().toString()), tipo)) {
+                        Toast.makeText(getApplicationContext(), "Artículo agregado correctamente!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }catch(NullPointerException ex){
+                    Toast.makeText(getApplicationContext(), "Favor llenar todo el formulario", Toast.LENGTH_LONG).show();
                 }
                 Toast.makeText(getApplicationContext(),"El artículo no ha sido agregado!", Toast.LENGTH_LONG).show();
             }
