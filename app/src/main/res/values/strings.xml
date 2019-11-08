@@ -24,9 +24,24 @@
     <string name="editbtn">Editar artículos</string>
     <string name="deletebtn">Eliminar artículos</string>
 
-
-    <string-array name="myarray">
-        <item>value1</item>
-        <item>value2</item>
+    <string name="spn_title">Artículo</string>
+    <string-array name="articles_array">
+        <item>Blusa</item>
+        <item>Gorra</item>
+        <item>Abrigo</item>
+        <item>Vestido</item>
+        <item>Pantalon</item>
+        <item>Camisa</item>
+        <item>Short</item>
+        <item>Medias</item>
+        <item>Traje de bañ0</item>
+        <item>Camiseta</item>
     </string-array>
+
+    <string-array name="colors_array">
+        <item>Blanco</item>
+        <item>Negro</item>
+        <item>Azul</item>
+    </string-array>
+
 </resources>

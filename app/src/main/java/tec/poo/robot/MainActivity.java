@@ -39,12 +39,32 @@ public class MainActivity extends AppCompatActivity {
     public static String email;
     public static Date date;
     public static ArrayList<Client> clients = new ArrayList<>();
-    public static Client clientActually; //cliente que actialmente está comprando
+    public static Client clientActually; //cliente que actualmente está comprando
     public static String inventoryInitial = "Inventario Inicial \n";
     public static String inventoryFinal = "Inventario Final \n";
     public static String conversation = "Conversación \n";
     public static String reservated = "Reservaciones \n";
     public static String buyed = "Compras \n";
+
+
+    String action;              //Si va a comprar, apartar, retitar un articulo
+    String paymentMethod;       //Si paga en efectivo o con tarjeta
+    String userName;            //Guarda el nombre de usuario
+    String color;               //Guarda el color del articulo
+    String nameArticle;         //Guarda el nombre del articulo
+    String characteristic;      //Guarda la caracteristica del articulo
+    String delivery;            //Guarda si por encomienda o si se lo lleva
+    String chanceCardNumber;    //Guarda si el cliente desea cambiar la tarjeta
+    int priceArt;               //Guarda el precio del articulo
+    int cardNumber;             //Guarda el numero de tarjeta
+    int totalPay;            //Guarda el monto total a pagar
+    int cantArticles;           //Guarda la cantidad de articulos que desea la parsona
+    int payColones;             //Guarda la cantidad de dinero con el que se va a pagar
+    Article art;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             ArrayList<String> matchesTextSpeeches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
+            conversation+="-"+matchesTextSpeeches.get(0);
             String speechText = matchesTextSpeeches.get(0); // Takes first speech recognized
+
             int command = getCommand(speechText);           // Passes first speech in text to get the command number needed.
             executeCommand(command);
         }
@@ -127,116 +148,48 @@ public class MainActivity extends AppCompatActivity {
      * @return command number
      */
     private int getCommand(String speechText){
-        if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("camisa") || speechText.contains("Camisa")) ||
-                (speechText.contains("camisas") || speechText.contains("Camisas"))){
+        String[] partsSpeechText = speechText.split(" "); //Divide el speechText y lo mete en un arreglo para obtener cada palabra por separado
+
+        if((speechText.contains("comprar")) || (speechText.contains("Comprar"))){  //Comprar articulos
+            action = partsSpeechText[partsSpeechText.length-3];
+            nameArticle = partsSpeechText[partsSpeechText.length-1];
             return 1;
         }
-        else if ((speechText.contains("camisa") || speechText.contains("Camisa")) &&
-                (speechText.contains("blanca") || speechText.contains("Blanca"))){
+        if((speechText.contains("color")) || (speechText.contains("Color"))){  //color de articulos
+            color = partsSpeechText[partsSpeechText.length-1];
             return 2;
         }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("camiseta") || speechText.contains("Camiseta")) ||
-                (speechText.contains("camisetas") || speechText.contains("Camisetas"))){
+        if((speechText.contains("quiero")) || (speechText.contains("Quiero"))){  //cantidad de articulos
+            cantArticles = entero(partsSpeechText[partsSpeechText.length-1]);
             return 3;
         }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("short") || speechText.contains("Short")) ||
-                (speechText.contains("shorts") || speechText.contains("Shorts"))){
+        if((speechText.contains("efectivo")) || (speechText.contains("efectivo"))||
+                (speechText.contains("tarjeta")) || (speechText.contains("Tarjeta"))){  //pagar con efectivo o con tarjeta
+            paymentMethod = partsSpeechText[partsSpeechText.length-1];
             return 4;
         }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("sueter") || speechText.contains("Sueter")) ||
-                (speechText.contains("suéter") || speechText.contains("Suéter")) ||
-                (speechText.contains("suéters") || speechText.contains("Suéters"))||
-                (speechText.contains("suéters") || speechText.contains("Suéters"))){
+        if((speechText.contains("colones")) || (speechText.contains("Colones"))){  //cantidad de dinero con el que piensa pagar
+            payColones =  Integer.parseInt(partsSpeechText[partsSpeechText.length-2]);
             return 5;
         }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("pantalón") || speechText.contains("Pantalón")) ||
-                (speechText.contains("pantalónes") || speechText.contains("Pantalónes"))){
+        if((speechText.contains("llevo")) || (speechText.contains("Llevo"))||
+                (speechText.contains("encomienda")) || (speechText.contains("Encomienda"))||
+                (speechText.contains("llevar")) || (speechText.contains("Llevar"))){  //cantidad de dinero con el que piensa pagar
+            delivery =  partsSpeechText[partsSpeechText.length-1];
             return 6;
         }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("abrigo") || speechText.contains("Abrigo")) ||
-                (speechText.contains("abrigos") || speechText.contains("Abrigos"))){
+        if((speechText.contains("Sí")) || (speechText.contains("sí"))||
+                (speechText.contains("Si")) || (speechText.contains("si"))||
+                (speechText.contains("No")) || (speechText.contains("no"))){  //cantidad de dinero con el que piensa pagar
+            chanceCardNumber =  partsSpeechText[partsSpeechText.length-1];
             return 7;
         }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("medias") || speechText.contains("Medias"))){
-            return 8;
+
+        if((speechText.contains("apartar")) || (speechText.contains("Apartar"))){//Apartar articulos
+            return 2;
         }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("vestido") || speechText.contains("Vestido")) ||
-                (speechText.contains("vestidos") || speechText.contains("Vestidos"))){
-            return 9;
-        }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("blusa") || speechText.contains("Blusa")) ||
-                (speechText.contains("blusas") || speechText.contains("Blusas"))){
-            return 10;
-        }
-        else if((speechText.contains("comprar") || speechText.contains("Comprar")) &&
-                (speechText.contains("gorra") || speechText.contains("Gorra")) ||
-                (speechText.contains("gorras") || speechText.contains("Gorras"))){
-            return 11;
-        }
-        if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("camisa") || speechText.contains("Camisa")) ||
-                (speechText.contains("camisas") || speechText.contains("Camisas"))){
-            return 12;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("apartar")) &&
-                (speechText.contains("camiseta") || speechText.contains("Camiseta")) ||
-                (speechText.contains("camisetas") || speechText.contains("Camisetas"))){
-            return 13;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("short") || speechText.contains("Short")) ||
-                (speechText.contains("shorts") || speechText.contains("Shorts"))){
-            return 14;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("sueter") || speechText.contains("Sueter")) ||
-                (speechText.contains("sueters") || speechText.contains("Sueters"))){
-            return 15;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("pantalón") || speechText.contains("Pantalón")) ||
-                (speechText.contains("pantalónes") || speechText.contains("Pantalónes"))){
-            return 16;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("abrigo") || speechText.contains("Abrigo")) ||
-                (speechText.contains("abrigos") || speechText.contains("Abrigos"))){
-            return 17;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("medias") || speechText.contains("Medias"))){
-            return 18;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("vestido") || speechText.contains("Vestido")) ||
-                (speechText.contains("vestidos") || speechText.contains("Vestidos"))){
-            return 19;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("blusa") || speechText.contains("Blusa")) ||
-                (speechText.contains("blusas") || speechText.contains("Blusas"))){
-            return 20;
-        }
-        else if((speechText.contains("apartar") || speechText.contains("Apartar")) &&
-                (speechText.contains("gorra") || speechText.contains("Gorra")) ||
-                (speechText.contains("gorras") || speechText.contains("Gorras"))){
-            return 21;
-        } else if ((speechText.contains("camisa")) || (speechText.contains("Camisa")) ||
-                (speechText.contains("camisas")) || (speechText.contains("Camisas")) &&
-                (speechText.contains("blanca")) || (speechText.contains("Blanca")) ||
-                (speechText.contains("blancas")) || (speechText.contains("Blancas"))){
-            return 22;
-        }
-        else if (speechText.contains("Salir") || speechText.contains("salir") || speechText.contains("bye")){
+
+        else if (speechText.contains("Salir") || speechText.contains("salir") || speechText.contains("bye")){//Salir de la aplicación
             return 100;
         }
         return -1;
@@ -255,26 +208,157 @@ public class MainActivity extends AppCompatActivity {
                 }
                 recordSpeech();   //Speech to text: Client answer
                 break;
-            case 1:     //Buy a shirt command
-                speak("Tengo camisas blancas, negras y azules, de manga corta. ¿De qué color la quiere?");
+            case 1:     //Buy a article command
+                if(nameArticle.equalsIgnoreCase("Blusa")){
+                    characteristic = "cuello alto";
+                    speak("Tengo blusas de cuello alto, de color blanco, negro y azul. ¿De qué color la quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Gorra")){
+                    characteristic = "deportiva";
+                    speak("Tengo gorras deportivas de color blanco, negro y azul. ¿De qué color la quiere?");
+                            while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Abrigo")){
+                    characteristic = "deportivo";
+                    speak("Tengo abrigos deportivos de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Vestido")){
+                    characteristic = "largo";
+                    speak("Tengo vestidos largos de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Pantalón")){
+                    characteristic = "mezclilla";
+                    speak("Tengo pantalones de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Camisa")){
+                    characteristic = "manga corta";
+                    speak("Tengo camisas de manga corta de color blanco, negro y azul. ¿De qué color la quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Short")){
+                    characteristic = "mezclilla";
+                    speak("Tengo shorts de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Medias")){
+                    characteristic = "cortas";
+                    speak("Tengo medias cortas de color blanco, negro y azul. ¿De qué color las quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Traje de baño")){
+                    characteristic = "2";
+                    speak("Tengo trajes de baño de dos piezas de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                if(nameArticle.equalsIgnoreCase("Camiseta")){
+                    characteristic = "cuello v";
+                    speak("Tengo camisetas de cuello V de color blanco, negro y azul. ¿De qué color la quiere?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+                recordSpeech();  //Speech to text: Client answer
+                break;
+
+            case 2:     //Ofrece articulo con las especificaciones y pregunta cuantos desea
+                art = searchArticle(nameArticle,color,characteristic);
+                priceArt = art.getPrice();
+                speak("Cada"+ nameArticle +"tiene un precio de" + art.getPrice()+ "contamos con"+art.getQuantity()+
+                        "artículos en el inventario.Cuantós desea?");
                 while (textToSpeech.isSpeaking()){
 
                 }
                 recordSpeech();  //Speech to text: Client answer
                 break;
-            case 2:     //Buy a shirt command
-                speak("La camisa blanca cuesta treinta mil colones. ¿La desea comprar?");
-                while (textToSpeech.isSpeaking()){
 
+            case 3:     //Pregunta si va a pagar con tarjeta o con efectivo
+                if(art.getQuantity() < cantArticles){
+                    speak("No contamos con los artículos suficientes. Intente de nuevo");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }else{
+                    totalPay = cantArticles * priceArt;
+                    speak("Su total a pagar es de" + totalPay + "colones. Paga con efectivo o con tarjeta");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }
+
+                recordSpeech();  //Speech to text: Client answer
+                break;
+
+            case 4:     //Pregunta con cuanto dinero va a pagar o si desea pagar con la tarjeta registrada
+                totalPay = cantArticles * priceArt;
+                if(paymentMethod.equalsIgnoreCase("efectivo")) {
+                    speak("Con cuánto dinero va a pagar?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }else{
+                    speak("Desea pagar con la tarjeta"+ clientActually.getCardNumber()+" o la desea cambiar");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
                 }
                 recordSpeech();  //Speech to text: Client answer
                 break;
-            case 22: //camisa blanca
-                Article art = searchArticle("Camisa","blanco", "manga corta");
-                speak("Cada camisa cuesta "+art.getPrice()+".¿Cuántas camisas desea comprar?");
-                while (textToSpeech.isSpeaking()){
 
+            case 5:     //Paga en efectivo, y pregunta si se lo lleva o se le envía por encomienda
+                totalPay = cantArticles * priceArt;
+                int total = totalPay - payColones;
+                if(action.equals("comprar"))
+                    if(totalPay > payColones){
+                        speak("El dinero no es suficiente. Intente de nuevo");
+                        while (textToSpeech.isSpeaking()){
+
+                        }
+                    }else{
+                        art.payWithCash(art,cantArticles,totalPay);
+                        speak("Su vuelto es de " + total + "colones. Se lo lleva o se le envía por encomienda");
+                        while (textToSpeech.isSpeaking()){
+
+                        }
+                    }
+
+                recordSpeech();  //Speech to text: Client answer
+                break;
+
+            case 6:   //Enviar por encomienda o llevárselo
+                if(delivery.equalsIgnoreCase("llevar")){
+                    speak("Muchas gracias por su visita, esperamos verlo pronto.");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }else{
+                    speak("Muchas gracias por su visita, esperamos verlo pronto.");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
                 }
+
             case 100:   //Saying good bye command
                 speak("Adiós, fue un placer ayudarte");
                 while (textToSpeech.isSpeaking()){
@@ -380,10 +464,6 @@ public class MainActivity extends AppCompatActivity {
                 if (a.getName().equals(name) && a.getColor().equals(color) && ((T_Shirt) a).getSleeveType().equals(strin)) {
                     return a;
                 }
-            }else if (a instanceof Swimwear){
-                if (a.getName().equals(name) && a.getColor().equals(color) && ((Swimwear) a).getCantPieces().equals(strin)){
-                    return a;
-                }
             }
         }
         return null;
@@ -409,35 +489,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int entero (String num){
-        if (num.equals("uno"))
+        if (num.equals("uno")||num.equals("1"))
             return 1;
-        if (num.equals("dos"))
+        if (num.equals("dos")||num.equals("2"))
             return 2;
-        if (num.equals("tres"))
+        if (num.equals("tres")||num.equals("3"))
             return 3;
-        if (num.equals("cuatro"))
+        if (num.equals("cuatro")||num.equals("4"))
             return 4;
-        if (num.equals("cinco"))
+        if (num.equals("cinco")||num.equals("5"))
             return 5;
-        if (num.equals("seis"))
+        if (num.equals("seis")||num.equals("6"))
             return 6;
-        if (num.equals("siete"))
+        if (num.equals("siete")||num.equals("7"))
             return 7;
-        if (num.equals("ocho"))
+        if (num.equals("ocho")||num.equals("8"))
             return 8;
-        if (num.equals("nueve"))
+        if (num.equals("nueve")||num.equals("9"))
             return 9;
-        if (num.equals("diez"))
+        if (num.equals("diez")||num.equals("10"))
             return 10;
-        if (num.equals("once"))
+        if (num.equals("once")||num.equals("11"))
             return 11;
-        if (num.equals("doce"))
+        if (num.equals("doce")||num.equals("12"))
             return 12;
-        if (num.equals("trece"))
+        if (num.equals("trece")||num.equals("13"))
             return 13;
-        if (num.equals("catorce"))
+        if (num.equals("catorce")||num.equals("14"))
             return 14;
-        if (num.equals("quince"))
+        if (num.equals("quince")||num.equals("15"))
             return 15;
         return 0;
     }
@@ -461,56 +541,47 @@ public class MainActivity extends AppCompatActivity {
         clients.add(huber);
 
         Inventory inventory= Inventory.getInstance();
+        ArticleFactory factory = new ArticleFactory();
 
-        Blouse ba = new Blouse(111, 7000, "Blusa", "azul", 10, "largo");
-        Blouse bb = new Blouse(222, 8000, "Blusa", "blanco", 10, "largo");
-        Blouse bn = new Blouse(333, 8000, "Blusa", "negro", 10, "largo");
-        inventory.setArticles(ba, bb, bn); //se agregan de 3 en 3
+        factory.maker(1,111, 7000, "blusa", "azul", 10, "cuello alto");
+        factory.maker(1,222, 8000, "blusa", "blanco", 10, "cuello alto");
+        factory.maker(1,333, 8000, "blusa", "negro", 10, "cuello alto");
 
-        Cap ca = new Cap (444,2500, "Gorra", "azul", 10, "deportiva");
-        Cap cb = new Cap (555,2000, "Gorra", "blanco", 10, "deportiva");
-        Cap cn = new Cap (666,2500, "Gorra", "negro", 10, "deportiva");
-        inventory.setArticles(ca, cb, cn);
+        factory.maker(2,444,2500, "gorra", "azul", 10, "deportiva");
+        factory.maker(2,555,2000, "gorra", "blanco", 10, "deportiva");
+        factory.maker(2,666,2500, "gorra", "negro", 10, "deportiva");
 
-        Coat coa = new Coat (777, 4000,"Abrigo", "azul", 10, "deportivo");
-        Coat cob = new Coat (888, 4000,"Abrigo", "blanco", 10, "deportivo");
-        Coat con = new Coat (999, 4000,"Abrigo", "negro", 10, "deportivo");
-        inventory.setArticles(coa, cob, con);
+        factory.maker(3,777, 4000,"abrigo", "azul", 10, "deportivo");
+        factory.maker(3,888, 4000,"abrigo", "blanco", 10, "deportivo");
+        factory.maker(3,999, 4000,"abrigo", "negro", 10, "deportivo");
 
-        Dress da = new Dress (101, 7000, "Vestido", "azul", 10,"largo");
-        Dress db = new Dress (202, 7000, "Vestido", "blanco", 10,"largo");
-        Dress dn = new Dress (303, 7000, "Vestido", "negro", 10,"largo");
-        inventory.setArticles(da, db, dn);
+        factory.maker(4, 101, 7000, "vestido", "azul", 10,"largo");
+        factory.maker(4,202, 7000, "vestido", "blanco", 10,"largo");
+        factory.maker(4, 303, 7000, "vestido", "negro", 10,"largo");
 
-        Pant pa = new Pant (404, 10000, "Pantalón", "azul", 20, "mezquilla");
-        Pant pb = new Pant (505, 10000, "Pantalón", "blanco", 20, "mezquilla");
-        Pant pn = new Pant (606, 10000, "Pantalón", "negro", 20, "mezquilla");
-        inventory.setArticles(pa, pb, pn);
+        factory.maker(5, 404, 10000, "pantalón", "azul", 20, "mezquilla");
+        factory.maker(5,505, 10000, "pantalón", "blanco", 20, "mezquilla");
+        factory.maker(5,606, 10000, "pantalón", "negro", 20, "mezquilla");
 
-        Shirt sa = new Shirt (707, 5000, "Camisa", "azul", 15, "manga corta");
-        Shirt sb = new Shirt (808, 5000, "Camisa", "blanco", 15, "manga corta");
-        Shirt sn = new Shirt (909, 5000, "Camisa", "negro", 15, "manga corta");
-        inventory.setArticles(sa, sb, sn);
+        factory.maker(6,707, 5000, "camisa", "azul", 15, "manga corta");
+        factory.maker(6,808, 5000, "camisa", "blanco", 15, "manga corta");
+        factory.maker(6,909, 5000, "camisa", "negro", 15, "manga corta");
 
-        Short1 sha = new Short1 (110, 4000,"Short", "azul", 5, "mezquilla");
-        Short1 shb = new Short1 (120, 4000,"Short", "blanco", 5, "mezquilla");
-        Short1 shn = new Short1 (130, 4000,"Short", "negro", 5, "mezquilla");
-        inventory.setArticles(sha, shb, shn);
+        factory.maker(7,110, 4000,"short", "azul", 5, "mezquilla");
+        factory.maker(7,120, 4000,"short", "blanco", 5, "mezquilla");
+        factory.maker(7,130, 4000,"short", "negro", 5, "mezquilla");
 
-        Socks soa = new Socks (140, 1000, "Medias", "azul", 10,"cortas");
-        Socks sob = new Socks (150, 1000, "Medias", "blanco", 10,"cortas");
-        Socks son = new Socks (160, 1000, "Medias", "negro", 10,"cortas");
-        inventory.setArticles(soa, sob, son);
+        factory.maker(8,140, 1000, "medias", "azul", 10,"cortas");
+        factory.maker(8,150, 1000, "medias", "blanco", 10,"cortas");
+        factory.maker(8,160, 1000, "medias", "negro", 10,"cortas");
 
-        Swimwear swa = new Swimwear(170, 6000, "Traje de baño", "azul", 5, "2");
-        Swimwear swb = new Swimwear(180, 6000, "Traje de baño", "blanco", 5, "2");
-        Swimwear swn = new Swimwear(190, 6000, "Traje de baño", "negro", 5, "2");
-        inventory.setArticles(swa, swb, swn);
+        factory.maker(9,170, 6000, "traje de baño", "azul", 5, "2");
+        factory.maker(9,180, 6000, "traje de baño", "blanco", 5, "2");
+        factory.maker(9,190, 6000, "traje de baño", "negro", 5, "2");
 
-        T_Shirt ta = new T_Shirt(200, 5000, "Camiseta", "azul", 10, "manga corta");
-        T_Shirt tb = new T_Shirt(200, 5000, "Camiseta", "banco", 10, "manga corta");
-        T_Shirt tn = new T_Shirt(200, 5000, "Camiseta", "negro", 10, "manga corta");
-        inventory.setArticles(ta, tb, tn);
+        factory.maker(10,200, 5000, "camiseta", "azul", 10, "manga corta");
+        factory.maker(10,200, 5000, "camiseta", "banco", 10, "manga corta");
+        factory.maker(10,200, 5000, "camiseta", "negro", 10, "manga corta");
 
         inventoryInitial=runInventory();
     }

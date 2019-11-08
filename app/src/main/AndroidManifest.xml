@@ -12,10 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".addArticle"></activity>
         <activity android:name=".manager" />
-        <activity android:name=".editArticle"/>
+        <activity android:name=".editArticle" />
         <activity android:name=".deleteArticle" />
-        <activity android:name=".sigIn"
+        <activity
+            android:name=".sigIn"
             android:theme="@style/AppTheme.NoActionBar"> <!-- Quit the bar -->
         </activity>
         <activity

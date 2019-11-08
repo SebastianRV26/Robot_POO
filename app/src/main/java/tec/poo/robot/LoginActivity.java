@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import Models.Client;
+import Models.Inventory;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,8 +27,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //ProgressBar loadingProgressBar = findViewById(R.id.loading);
-        MainActivity.initialUsers();
+        Inventory inventory = Inventory.getInstance();
+        if (inventory.getCont()==0){
+            //ProgressBar loadingProgressBar = findViewById(R.id.loading);
+            MainActivity.initialUsers();
+            inventory.setCont();
+        }
         //buttons
         loginButton = findViewById(R.id.login);
         //Click event for start button

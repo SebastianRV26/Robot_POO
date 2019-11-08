@@ -11,12 +11,22 @@ public class manager extends AppCompatActivity {
 
     private Button edittButton;
     private Button deletetButton;
+    private Button addtButton;
     private Button before;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
+
+        addtButton= findViewById(R.id.btnadd);
+        addtButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(manager.this, addArticle.class);
+                startActivity(i);
+            }
+        });
 
         edittButton = findViewById(R.id.btnEdit);
         //getOutButton = findViewById(R.id.btnGetOut);

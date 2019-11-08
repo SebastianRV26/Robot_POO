@@ -15,6 +15,7 @@ import java.util.List;
 public class Inventory {
     private String name;
     private ArrayList<Article>articles = new ArrayList<>();
+    private int cont=0;
 
     private static Inventory instance = null;
     public static Inventory getInstance(){
@@ -38,14 +39,20 @@ public class Inventory {
         this.name = name;
     }
 
+    public int getCont() {
+        return cont;
+    }
+
+    public void setCont() {
+        this.cont++;
+    }
+
     public ArrayList<Article> getArticles() {
         return articles;
     }
 
-    public void setArticles(Article article, Article article2, Article article3) {
+    public void setArticles(Article article) {
         this.articles.add(article);
-        this.articles.add(article2);
-        this.articles.add(article3);
     }
 
     
