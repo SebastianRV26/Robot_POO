@@ -43,8 +43,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="ID"
-            android:focusable="false"
-            />
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="189dp" />
+
 
         <EditText
             android:id="@+id/lblprice"
@@ -52,8 +53,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Precio"
-            android:focusable="false"
-            />
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="189dp" />
 
         <TextView
             android:id="@+id/cardNum"
@@ -71,16 +72,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/colors_array"
-            android:layout_marginTop="10dip"
-            />
-
+            android:layout_marginTop="10dip"/>
         <EditText
             android:id="@+id/lblquantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Cantidad"
-            android:focusable="false"
             />
 
         <Button

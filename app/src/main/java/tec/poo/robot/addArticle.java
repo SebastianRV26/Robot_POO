@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import Exceptions.AndroidException;
 
 import Models.ArticleFactory;
 
@@ -18,6 +19,8 @@ public class addArticle extends AppCompatActivity {
     private Button before;
     private Button okbutton;
 
+    private Spinner spnColors;
+    private Spinner spnArticles;
     private EditText articleprice;
     private EditText articlequantity;
     private EditText articleid;
@@ -39,12 +42,11 @@ public class addArticle extends AppCompatActivity {
             public void onClick(View v) {
                 articleprice = findViewById(R.id.lblprice);
                 articlequantity = findViewById(R.id.lblquantity);
-                articleid = findViewById(R.id.lblprice);
-                articletype = findViewById(R.id.lblquantity);
-                Spinner Spinnername=(Spinner) findViewById(R.id.spnArticles);
-                articlename = Spinnername.getSelectedItem().toString();
-                Spinner SpinnerColor=(Spinner) findViewById(R.id.spnColors);
-                articlename = SpinnerColor.getSelectedItem().toString();
+                articleid = findViewById(R.id.lblid);
+                spnArticles = findViewById(R.id.spnArticles);
+                spnColors = findViewById(R.id.spnColors);
+                articlecolor = (spnColors).getSelectedItem().toString();
+                articlename = (spnArticles).getSelectedItem().toString();
 
                 String tipo="";
                 int num=0;
@@ -90,15 +92,16 @@ public class addArticle extends AppCompatActivity {
                 }
                 ArticleFactory factory = new ArticleFactory();
                 try {
-                    //int ID, int price, String name, String color, int quantity, String tipo
                     if (factory.maker(num, Integer.parseInt(articleid.getText().toString()),
                             Integer.parseInt(articleprice.getText().toString()), articlename, articlecolor,
-                            Integer.parseInt(articlequantity.getText().toString()), tipo)) {
+                            Integer.parseInt(articlequantity.getText().toString()), tipo)==true) {
                         Toast.makeText(getApplicationContext(), "Artículo agregado correctamente!", Toast.LENGTH_LONG).show();
                         return;
                     }
-                }catch(NullPointerException ex){
-                    Toast.makeText(getApplicationContext(), "Favor llenar todo el formulario", Toast.LENGTH_LONG).show();
+                }catch(AndroidException ex){
+                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+                }catch(Exception e){
+                    Toast.makeText(getApplicationContext(), "Favor no ingresar letras en el ID o número de targeta", Toast.LENGTH_LONG).show();
                 }
                 Toast.makeText(getApplicationContext(),"El artículo no ha sido agregado!", Toast.LENGTH_LONG).show();
             }

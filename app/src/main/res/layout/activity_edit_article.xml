@@ -92,12 +92,12 @@
             tools:layout_editor_absoluteY="155dp" />
 
         <EditText
-            android:id="@+id/lblprice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="189dp" />
+        android:id="@+id/lblprice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="189dp" />
 
         <TextView
             android:id="@+id/quantity"

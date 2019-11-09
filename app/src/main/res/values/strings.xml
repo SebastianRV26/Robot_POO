@@ -37,11 +37,10 @@
         <item>Traje de bañ0</item>
         <item>Camiseta</item>
     </string-array>
-
+    <string name="spn_title2">Color</string>
     <string-array name="colors_array">
         <item>Blanco</item>
         <item>Negro</item>
         <item>Azul</item>
     </string-array>
-
 </resources>

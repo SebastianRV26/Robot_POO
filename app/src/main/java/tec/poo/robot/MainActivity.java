@@ -12,6 +12,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import Exceptions.AndroidException;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -759,46 +760,49 @@ public class MainActivity extends AppCompatActivity {
         Inventory inventory= Inventory.getInstance();
         ArticleFactory factory = new ArticleFactory();
 
-        factory.maker(1,111, 7000, "blusa", "azul", 10, "cuello alto");
-        factory.maker(1,222, 8000, "blusa", "blanco", 10, "cuello alto");
-        factory.maker(1,333, 8000, "blusa", "negro", 10, "cuello alto");
+        try {
+            factory.maker(1, 111, 7000, "blusa", "azul", 10, "cuello alto");
+            factory.maker(1, 222, 8000, "blusa", "blanco", 10, "cuello alto");
+            factory.maker(1, 333, 8000, "blusa", "negro", 10, "cuello alto");
 
-        factory.maker(2,444,2500, "gorra", "azul", 10, "deportiva");
-        factory.maker(2,555,2000, "gorra", "blanco", 10, "deportiva");
-        factory.maker(2,666,2500, "gorra", "negro", 10, "deportiva");
+            factory.maker(2, 444, 2500, "gorra", "azul", 10, "deportiva");
+            factory.maker(2, 555, 2000, "gorra", "blanco", 10, "deportiva");
+            factory.maker(2, 666, 2500, "gorra", "negro", 10, "deportiva");
 
-        factory.maker(3,777, 4000,"abrigo", "azul", 10, "deportivo");
-        factory.maker(3,888, 4000,"abrigo", "blanco", 10, "deportivo");
-        factory.maker(3,999, 4000,"abrigo", "negro", 10, "deportivo");
+            factory.maker(3, 777, 4000, "abrigo", "azul", 10, "deportivo");
+            factory.maker(3, 888, 4000, "abrigo", "blanco", 10, "deportivo");
+            factory.maker(3, 999, 4000, "abrigo", "negro", 10, "deportivo");
 
-        factory.maker(4, 101, 7000, "vestido", "azul", 10,"largo");
-        factory.maker(4,202, 7000, "vestido", "blanco", 10,"largo");
-        factory.maker(4, 303, 7000, "vestido", "negro", 10,"largo");
+            factory.maker(4, 101, 7000, "vestido", "azul", 10, "largo");
+            factory.maker(4, 202, 7000, "vestido", "blanco", 10, "largo");
+            factory.maker(4, 303, 7000, "vestido", "negro", 10, "largo");
 
-        factory.maker(5, 404, 10000, "pantalón", "azul", 20, "mezquilla");
-        factory.maker(5,505, 10000, "pantalón", "blanco", 20, "mezquilla");
-        factory.maker(5,606, 10000, "pantalón", "negro", 20, "mezquilla");
+            factory.maker(5, 404, 10000, "pantalón", "azul", 20, "mezquilla");
+            factory.maker(5, 505, 10000, "pantalón", "blanco", 20, "mezquilla");
+            factory.maker(5, 606, 10000, "pantalón", "negro", 20, "mezquilla");
 
-        factory.maker(6,707, 5000, "camisa", "azul", 15, "manga corta");
-        factory.maker(6,808, 5000, "camisa", "blanco", 15, "manga corta");
-        factory.maker(6,909, 5000, "camisa", "negro", 15, "manga corta");
+            factory.maker(6, 707, 5000, "camisa", "azul", 15, "manga corta");
+            factory.maker(6, 808, 5000, "camisa", "blanco", 15, "manga corta");
+            factory.maker(6, 909, 5000, "camisa", "negro", 15, "manga corta");
 
-        factory.maker(7,110, 4000,"short", "azul", 5, "mezquilla");
-        factory.maker(7,120, 4000,"short", "blanco", 5, "mezquilla");
-        factory.maker(7,130, 4000,"short", "negro", 5, "mezquilla");
+            factory.maker(7, 110, 4000, "short", "azul", 5, "mezquilla");
+            factory.maker(7, 120, 4000, "short", "blanco", 5, "mezquilla");
+            factory.maker(7, 130, 4000, "short", "negro", 5, "mezquilla");
 
-        factory.maker(8,140, 1000, "medias", "azul", 10,"cortas");
-        factory.maker(8,150, 1000, "medias", "blanco", 10,"cortas");
-        factory.maker(8,160, 1000, "medias", "negro", 10,"cortas");
+            factory.maker(8, 140, 1000, "medias", "azul", 10, "cortas");
+            factory.maker(8, 150, 1000, "medias", "blanco", 10, "cortas");
+            factory.maker(8, 160, 1000, "medias", "negro", 10, "cortas");
 
-        factory.maker(9,170, 6000, "traje de baño", "azul", 5, "2");
-        factory.maker(9,180, 6000, "traje de baño", "blanco", 5, "2");
-        factory.maker(9,190, 6000, "traje de baño", "negro", 5, "2");
+            factory.maker(9, 170, 6000, "traje de baño", "azul", 5, "2");
+            factory.maker(9, 180, 6000, "traje de baño", "blanco", 5, "2");
+            factory.maker(9, 190, 6000, "traje de baño", "negro", 5, "2");
 
-        factory.maker(10,200, 5000, "camiseta", "azul", 10, "manga corta");
-        factory.maker(10,200, 5000, "camiseta", "banco", 10, "manga corta");
-        factory.maker(10,200, 5000, "camiseta", "negro", 10, "manga corta");
-
+            factory.maker(10, 200, 5000, "camiseta", "azul", 10, "manga corta");
+            factory.maker(10, 200, 5000, "camiseta", "banco", 10, "manga corta");
+            factory.maker(10, 200, 5000, "camiseta", "negro", 10, "manga corta");
+        }catch (AndroidException ex){
+            //no se puede hacer el toast aquí
+        }
         inventoryInitial=runInventory();
     }
 

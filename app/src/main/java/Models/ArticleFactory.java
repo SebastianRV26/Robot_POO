@@ -1,6 +1,7 @@
 package Models;
 
 
+import Exceptions.AndroidException;
 import tec.poo.robot.MainActivity;
 
 /**
@@ -23,9 +24,10 @@ import tec.poo.robot.MainActivity;
 */
 public class ArticleFactory {
 
-    public static boolean maker(int num, int ID, int price, String name, String color, int quantity, String tipo) {
+    public static boolean maker(int num, int ID, int price, String name, String color, int quantity, String tipo) throws AndroidException{
         Article article = null;
 
+        try{
         switch (num) {
             case 1:
                 article = new Blouse(ID, price, name, color, quantity, tipo);
@@ -59,6 +61,9 @@ public class ArticleFactory {
                 break;
             default:
                 return false;
+            }
+        }catch(NullPointerException ex){
+            throw new AndroidException("Favor llenar todo el formulario");
         }
 
         MainActivity.inventory.setArticles(article);
