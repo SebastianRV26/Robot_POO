@@ -33,6 +33,7 @@ public class deleteArticle extends AppCompatActivity {
                 if (IDText != null) {
                     Article a = MainActivity.searchArticle(Integer.parseInt(IDText.getText().toString()));
                     if (a!=null){
+                        MainActivity.deleted += "ID: "+a.getID()+" nombre: "+a.getName()+" color: "+a.getColor()+ " cantidad "+a.getQuantity()+" y precio: "+a.getPrice()+"\n";
                         MainActivity.inventory.getArticles().remove(a); //delete article
                         Toast.makeText(getApplicationContext(), "Artículo eliminado correctamente", Toast.LENGTH_LONG).show();
                         Intent i = new Intent(deleteArticle.this, manager.class);

@@ -59,8 +59,10 @@ public class editArticle extends AppCompatActivity {
                 if (IDText != null) {
                     Article a = MainActivity.searchArticle(Integer.parseInt(IDText.getText().toString()));
                     if (a!=null){
+                        MainActivity.edited += "Antes: ID: "+a.getID()+" nombre: "+a.getName()+" color: "+a.getColor()+ " cantidad "+a.getQuantity()+" y precio: "+a.getPrice()+"\n";
                         a.setPrice(Integer.parseInt(articleprice.getText().toString()));
                         a.setQuantity(Integer.parseInt(articlequantity.getText().toString()));
+                        MainActivity.edited += "Después: ID: "+a.getID()+" nombre: "+a.getName()+" color: "+a.getColor()+ " cantidad "+a.getQuantity()+" y precio: "+a.getPrice()+"\n";
                         Toast.makeText(getApplicationContext(), "Artículo editado correctamente", Toast.LENGTH_LONG).show();
                         Intent i = new Intent(editArticle.this, manager.class);
                         startActivity(i);

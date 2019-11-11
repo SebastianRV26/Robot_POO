@@ -12,6 +12,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import Exceptions.AndroidException;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     public static String inventoryInitial = "Inventario Inicial \n";
     public static String inventoryFinal = "Inventario Final \n";
     public static String conversation = "Conversación \n";
+    public static String edited = "Artículos editados: \n";
+    public static String deleted = "Artículos eliminados: \n";
     public static String reservated = "Reservaciones \n";
     public static String buyed = "Compras \n";
 
@@ -55,17 +58,15 @@ public class MainActivity extends AppCompatActivity {
     String characteristic;       //Guarda la caracteristica del articulo
     String delivery;             //Guarda si por encomienda o si se lo lleva
     String chanceCardNumber;     //Guarda si el cliente desea cambiar la tarjeta
-    String changeZipCode_Direcction;        //Guarda qué desea cambiar el cliente (código, dirección o ambos)
-    String changeZipDicc;             //Guarda si el cliente desea cambiar el código postal
-    String direcction;                      //Guarda la nueva dirección del cliente
+    String direcction = "";                      //Guarda la nueva dirección del cliente
     String zipCode;                        //Guarda el nuevo código postal del cliente
     int priceArt;                //Guarda el precio del articulo
     int cardNumber;              //Guarda el numero de tarjeta
     double totalPay;                //Guarda el monto total a pagar
-    int cantArticles;            //Guarda la cantidad de articulos que desea la parsona
+    int cantArticles = 1;            //Guarda la cantidad de articulos que desea la parsona
     int payColones;              //Guarda la cantidad de dinero con el que se va a pagar
     Article art;
-
+    int switchChange;
 
 
 
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.date = new Date();
-        this.email = "";
+        this.email = "Artículos comprados \n";
         this.reservation = new Reservation("Reservation"); //único apartado existente
 
 
@@ -159,70 +160,106 @@ public class MainActivity extends AppCompatActivity {
             nameArticle = partsSpeechText[partsSpeechText.length-1];
             return 1;
         }
-        if((speechText.contains("color")) || (speechText.contains("Color"))){  //color de articulos
-            color = partsSpeechText[partsSpeechText.length-1];
+        if((speechText.contains("apartar")) || (speechText.contains("Apartar"))){  //Apartar articulos
+            action = partsSpeechText[partsSpeechText.length-3];
+            nameArticle = partsSpeechText[partsSpeechText.length-1];
+            return 1;
+        }
+        if((speechText.contains("retirar")) || (speechText.contains("Retirar"))){  //Retirar articulos
+            action = partsSpeechText[partsSpeechText.length-3];
+            nameArticle = partsSpeechText[partsSpeechText.length-1];
             return 2;
+        }
+        if((speechText.contains("consultar")) || (speechText.contains("Consultar"))){  //Consultar articulos apartados
+
+            return 13;
+        }
+        if((speechText.contains("color")) || (speechText.contains("Color"))){  //Consultar articulos apartados
+            color = partsSpeechText[partsSpeechText.length-1];
+            return 3;
+        }
+        if((speechText.contains("Sí")) || (speechText.contains("sí"))||
+                (speechText.contains("Si")) || (speechText.contains("si"))){
+            if (switchChange == 1){
+                return 4;
+            }
+            if (switchChange == 2){
+                return 4;
+            }
+            if (switchChange == 3){
+                chanceCardNumber =  partsSpeechText[partsSpeechText.length-1];
+                return 8;
+            }
+            if (switchChange == 4){
+                return 9;
+            }
+            if (switchChange == 5){
+                return 9;
+            }
+            if (switchChange == 6){
+                return 11;
+            }
+
+        }
+        if((speechText.contains("No")) || (speechText.contains("no"))){
+            if (switchChange == 1){
+                return 11;
+            }
+            if (switchChange == 2){
+                return 11;
+            }
+            if (switchChange == 3){
+                cardNumber = clientActually.getCardNumber();
+                chanceCardNumber =  partsSpeechText[partsSpeechText.length-1];
+                return 8;
+            }
+            if (switchChange == 4){
+                switchChange= 5;
+                return 7;
+            }
+            if (switchChange == 5){
+                direcction = clientActually.getDirection();
+                return 10;
+            }
+            if (switchChange == 6){
+                return 12;
+            }
+
         }
         if((speechText.contains("quiero")) || (speechText.contains("Quiero"))){  //cantidad de articulos
             cantArticles = entero(partsSpeechText[partsSpeechText.length-1]);
-            return 3;
+            return 4;
         }
-        if((speechText.contains("efectivo")) || (speechText.contains("efectivo"))||
+        if((speechText.contains("efectivo")) || (speechText.contains("Efectivo"))||
                 (speechText.contains("tarjeta")) || (speechText.contains("Tarjeta"))){  //pagar con efectivo o con tarjeta
             paymentMethod = partsSpeechText[partsSpeechText.length-1];
-            return 4;
+            return 5;
         }
         if((speechText.contains("colones")) || (speechText.contains("Colones"))){  //cantidad de dinero con el que piensa pagar
             payColones =  Integer.parseInt(partsSpeechText[partsSpeechText.length-2]);
-            return 5;
+            return 6;
         }
         if((speechText.contains("llevo")) || (speechText.contains("Llevo"))||
                 (speechText.contains("encomienda")) || (speechText.contains("Encomienda"))||
                 (speechText.contains("llevar")) || (speechText.contains("Llevar"))){  //cantidad de dinero con el que piensa pagar
             delivery =  partsSpeechText[partsSpeechText.length-1];
+            return 7;
+        }
+        if((speechText.contains("número")) || (speechText.contains("Número"))){  //cantidad de dinero con el que piensa pagar
+            payColones =  Integer.parseInt(partsSpeechText[partsSpeechText.length-2]);
             return 6;
         }
-        if((speechText.contains("cambiar")) || (speechText.contains("Cambiar"))){  //cantidad de dinero con el que piensa pagar
-            changeZipCode_Direcction =  partsSpeechText[partsSpeechText.length-1];
-            changeZipDicc =  partsSpeechText[partsSpeechText.length-3];
-            return 8;
-        }
-        if((speechText.contains("Número")) || (speechText.contains("número"))||
-                ((speechText.contains("Numero")) || (speechText.contains("numero")))){//Apartar articulos
-            chanceCardNumber = "no";
-            cardNumber =  Integer.parseInt(partsSpeechText[partsSpeechText.length-1]);
+        if((speechText.contains("código")) || (speechText.contains("Codigo"))) {  //Cambiar el código postal
+            zipCode = partsSpeechText[partsSpeechText.length-1];
+            switchChange = 5;
             return 7;
         }
-        if((speechText.contains("Sí")) || (speechText.contains("sí"))||
-                (speechText.contains("Si")) || (speechText.contains("si"))||
-                (speechText.contains("No")) || (speechText.contains("no"))){  //Cambiar el número de tarjeta
-            chanceCardNumber =  partsSpeechText[partsSpeechText.length-1];
-            return 7;
-        }
-        if((speechText.contains("dirección")) || (speechText.contains("Dirección"))||
-                (speechText.contains("código")) || (speechText.contains("Codigo"))){  //Cambiar la dirección o código postal
-            if (changeZipCode_Direcction.equalsIgnoreCase("ambos")){
-                direcction = partsSpeechText[partsSpeechText.length-1];
-                zipCode = partsSpeechText[partsSpeechText.length-3];
-            }if (changeZipCode_Direcction.equalsIgnoreCase("dirección")){
-                direcction = partsSpeechText[partsSpeechText.length-1];
-            }if (changeZipCode_Direcction.equalsIgnoreCase("código")){
-                zipCode = partsSpeechText[partsSpeechText.length-1];
+        if((speechText.contains("dirección")) || (speechText.contains("Dirección"))) {  //Cambiar la dirección
+            for (int i = 1; i < partsSpeechText.length; ++i) {
+                direcction += partsSpeechText[i]+ " ";
             }
-            return 8;
-        }
-        if((speechText.contains("apartar")) || (speechText.contains("Apartar"))){//Apartar articulos
-            action = partsSpeechText[partsSpeechText.length-3];
-            nameArticle = partsSpeechText[partsSpeechText.length-1];
-            return 1;
-        }
-        if((speechText.contains("retirar")) || (speechText.contains("Retirar"))){//Retirar articulos apartados
-            action = partsSpeechText[partsSpeechText.length-3];
-            nameArticle = partsSpeechText[partsSpeechText.length-1];
-            return 1;
-        }
-        if((speechText.contains("consultar")) || (speechText.contains("Consultar"))){//Consultar articulos apartados
-            return 1;
+            switchChange = 0;
+            return 10;
         }
 
         else if (speechText.contains("Salir") || speechText.contains("salir") || speechText.contains("bye")){//Salir de la aplicación
@@ -238,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
     private void executeCommand(int command){
         switch (command){
             case 0:     //Saying hello command
+                conversation += "Hola! ¿En qué le puedo ayudar?";
                 speak("Hola! ¿En qué le puedo ayudar?"); //Text to speech, robot speaking
                 while (textToSpeech.isSpeaking()){
 
@@ -245,165 +283,174 @@ public class MainActivity extends AppCompatActivity {
                 recordSpeech();   //Speech to text: Client answer
                 break;
             case 1:     //Buy a article command
-                if (action.equalsIgnoreCase("retirar")){
-                    if(nameArticle.equalsIgnoreCase("Blusa")){
-                        characteristic = "cuello alto";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
+                if (nameArticle.equalsIgnoreCase("Blusa")) {
+                    characteristic = "cuello alto";
+                    conversation +="Contamos con blusas de cuello alto, de color blanco, negro y azul. ¿De qué color la quiere?";
+                    speak("Contamos con blusas de cuello alto, de color blanco, negro y azul. ¿De qué color la quiere?");
+                    while (textToSpeech.isSpeaking()) {
 
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Gorra")){
-                        characteristic = "deportiva";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Abrigo")){
-                        characteristic = "deportivo";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Vestido")){
-                        characteristic = "largo";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Pantalón")){
-                        characteristic = "mezclilla";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Camisa")){
-                        characteristic = "manga corta";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Short")){
-                        characteristic = "mezclilla";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Medias")){
-                        characteristic = "cortas";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Traje de baño")){
-                        characteristic = "2";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                    if(nameArticle.equalsIgnoreCase("Camiseta")){
-                        characteristic = "cuello v";
-                        speak("¿De qué color es?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
-                }else {
-                    if (nameArticle.equalsIgnoreCase("Blusa")) {
-                        characteristic = "cuello alto";
-                        speak("Tengo blusas de cuello alto, de color blanco, negro y azul. ¿De qué color la quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Gorra")) {
-                        characteristic = "deportiva";
-                        speak("Tengo gorras deportivas de color blanco, negro y azul. ¿De qué color la quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Abrigo")) {
-                        characteristic = "deportivo";
-                        speak("Tengo abrigos deportivos de color blanco, negro y azul. ¿De qué color lo quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Vestido")) {
-                        characteristic = "largo";
-                        speak("Tengo vestidos largos de color blanco, negro y azul. ¿De qué color lo quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Pantalón")) {
-                        characteristic = "mezclilla";
-                        speak("Tengo pantalones de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Camisa")) {
-                        characteristic = "manga corta";
-                        speak("Tengo camisas de manga corta de color blanco, negro y azul. ¿De qué color la quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Short")) {
-                        characteristic = "mezclilla";
-                        speak("Tengo shorts de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Medias")) {
-                        characteristic = "cortas";
-                        speak("Tengo medias cortas de color blanco, negro y azul. ¿De qué color las quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Traje de baño")) {
-                        characteristic = "2";
-                        speak("Tengo trajes de baño de dos piezas de color blanco, negro y azul. ¿De qué color lo quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                    if (nameArticle.equalsIgnoreCase("Camiseta")) {
-                        characteristic = "cuello v";
-                        speak("Tengo camisetas de cuello V de color blanco, negro y azul. ¿De qué color la quiere?");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
                     }
                 }
-                recordSpeech();  //Speech to text: Client answer
-                break;
+                if (nameArticle.equalsIgnoreCase("Gorra")) {
+                    characteristic = "deportiva";
+                    conversation +="Contamos con gorras deportivas de color blanco, negro y azul. ¿De qué color la quiere?";
+                    speak("Contamos con gorras deportivas de color blanco, negro y azul. ¿De qué color la quiere?");
+                    while (textToSpeech.isSpeaking()) {
 
-            case 2:     //Ofrece articulo con las especificaciones y pregunta cuantos desea
-                art = searchArticle(nameArticle,color,characteristic);
-                priceArt = art.getPrice();
-                speak("Cada"+ nameArticle +"tiene un precio de" + art.getPrice()+ "contamos con"+art.getQuantity()+
-                        "artículos en el inventario.Cuantós desea?");
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Abrigo")) {
+                    characteristic = "deportivo";
+                    conversation +="Contamos con abrigos deportivos de color blanco, negro y azul. ¿De qué color lo quiere?";
+                    speak("Contamos con abrigos deportivos de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Vestido")) {
+                    characteristic = "largo";
+                    conversation +="Contamos con vestidos largos de color blanco, negro y azul. ¿De qué color lo quiere?";
+                    speak("Contamos con vestidos largos de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Pantalón")) {
+                    characteristic = "mezclilla";
+                    conversation +="Contamos con pantalones de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?";
+                    speak("Contamos con pantalones de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Camisa")) {
+                    characteristic = "manga corta";
+                    conversation +="Contamos con camisas de manga corta de color blanco, negro y azul. ¿De qué color la quiere?";
+                    speak("Contamos con camisas de manga corta de color blanco, negro y azul. ¿De qué color la quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Short")) {
+                    characteristic = "mezclilla";
+                    conversation +="Contamos con shorts de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?";
+                    speak("Contamos con shorts de mezclilla de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Medias")) {
+                    characteristic = "cortas";
+                    conversation +="Contamos con medias cortas de color blanco, negro y azul. ¿De qué color las quiere?";
+                    speak("Contamos con medias cortas de color blanco, negro y azul. ¿De qué color las quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Traje de baño")) {
+                    characteristic = "2";
+                    conversation +="Contamos con trajes de baño de dos piezas de color blanco, negro y azul. ¿De qué color lo quiere?";
+                    speak("Contamos con trajes de baño de dos piezas de color blanco, negro y azul. ¿De qué color lo quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+                if (nameArticle.equalsIgnoreCase("Camiseta")) {
+                    characteristic = "cuello v";
+                    conversation +="Contamos con camisetas de cuello V de color blanco, negro y azul. ¿De qué color la quiere?";
+                    speak("Contamos con camisetas de cuello V de color blanco, negro y azul. ¿De qué color la quiere?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+
+                recordSpeech();   //Speech to text: Client answer
+                break;
+            case 2:     //Retirar artículo apartado
+                if (nameArticle.equalsIgnoreCase("Blusa")) {
+                    characteristic = "cuello alto";
+                }
+                if (nameArticle.equalsIgnoreCase("Gorra")) {
+                    characteristic = "deportiva";
+                }
+                if (nameArticle.equalsIgnoreCase("Abrigo")) {
+                    characteristic = "deportivo";
+                }
+                if (nameArticle.equalsIgnoreCase("Vestido")) {
+                    characteristic = "largo";
+                }
+                if (nameArticle.equalsIgnoreCase("Pantalón")) {
+                    characteristic = "mezclilla";
+                }
+                if (nameArticle.equalsIgnoreCase("Camisa")) {
+                    characteristic = "manga corta";
+                }
+                if (nameArticle.equalsIgnoreCase("Short")) {
+                    characteristic = "mezclilla";
+                }
+                if (nameArticle.equalsIgnoreCase("Medias")) {
+                    characteristic = "cortas";
+                }
+                if (nameArticle.equalsIgnoreCase("Traje de baño")) {
+                    characteristic = "2";
+                }
+                if (nameArticle.equalsIgnoreCase("Camiseta")) {
+                    characteristic = "cuello v";
+                }
+                conversation+= "De qué color es el artículo apartado?";
+                speak("De qué color es el artículo apartado?");
                 while (textToSpeech.isSpeaking()){
 
                 }
+                recordSpeech();   //Speech to text: Client answer
+                break;
+
+            case 3:     //Ofrece articulo con las especificaciones y pregunta cuantos desea
+                art = searchArticle(nameArticle,color,characteristic);
+
+                if(action.equalsIgnoreCase("comprar")){
+                    priceArt = art.getPrice();
+                    conversation+= "Cada"+ nameArticle +"tiene un precio de" + art.getPrice()+ "contamos con"+art.getQuantity()+
+                            "artículos en el inventario. Cuantós desea?";
+                    speak("Cada"+ nameArticle +"tiene un precio de" + art.getPrice()+ "contamos con"+art.getQuantity()+
+                            "artículos en el inventario. Cuantós desea?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }else if (action.equalsIgnoreCase("apartar")){
+                    priceArt = art.getPrice();
+                    switchChange = 1;
+                    conversation+= "Cada"+ nameArticle +"tiene un precio de" + art.getPrice()+ "contamos con"+art.getQuantity()+
+                            "artículos en el inventario. Desea apartarlo?";
+                    speak("Cada"+ nameArticle +"tiene un precio de" + art.getPrice()+ "contamos con"+art.getQuantity()+
+                            "artículos en el inventario. Desea apartarlo?");
+                    while (textToSpeech.isSpeaking()){
+
+                    }
+                }else{
+                    if (searchCustomerItem(art) == true){
+                        priceArt = art.getPrice();
+                        switchChange = 2;
+                        conversation+= "Desea retirar el artíulo?";
+                        speak("Desea retirar el artíulo?");
+                        while (textToSpeech.isSpeaking()){
+
+                        }
+                    }else{
+                        switchChange = 2;
+                        conversation+= "No cuenta con artículos con las especificaciones brindadas. Desea realizar algo más?";
+                        speak("No cuenta con artículos con las especificaciones brindadas. Desea realizar algo más?");
+                        while (textToSpeech.isSpeaking()){
+
+                        }
+                    }
+                }
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 3:     //Pregunta si va a pagar con tarjeta o con efectivo
+            case 4:
                 if(art.getQuantity() < cantArticles){
+                    conversation+= "No contamos con los artículos suficientes. Intente de nuevo";
                     speak("No contamos con los artículos suficientes. Intente de nuevo");
                     while (textToSpeech.isSpeaking()){
 
@@ -411,47 +458,42 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     if (action.equalsIgnoreCase("comprar")){
                         totalPay = cantArticles * priceArt;
+                        conversation+= "Su total a pagar es de" + totalPay + "colones. Paga con efectivo o con tarjeta";
                         speak("Su total a pagar es de" + totalPay + "colones. Paga con efectivo o con tarjeta");
                         while (textToSpeech.isSpeaking()){
 
                         }
                     }if (action.equalsIgnoreCase("apartar")){
-                        totalPay = (cantArticles * priceArt) *0.15;
-                        speak("Para poder apartar el artículo tiene que pagar el 15% de los artículos, " +
+                        totalPay =  priceArt *0.15;
+                        conversation+= "Para poder apartarlo tiene que pagar el 15% del valor del artículo, " +
+                                "en su caso serían"+ totalPay +" colones ¿Paga en efectivo o tarjeta?";
+                        speak("Para poder apartarlo tiene que pagar el 15% del valor del artículo, " +
                                 "en su caso serían"+ totalPay +" colones ¿Paga en efectivo o tarjeta?");
                         while (textToSpeech.isSpeaking()){
 
                         }
-                    }if (action.equalsIgnoreCase("apartar")) {
+                    }if (action.equalsIgnoreCase("retirar")) {
+                        totalPay = priceArt*0.85;
+                        conversation+= "Su total a pagar es de" + totalPay + "colones. Paga con efectivo o con tarjeta";
+                        speak("Su total a pagar es de" + totalPay + "colones. Paga con efectivo o con tarjeta");
+                        while (textToSpeech.isSpeaking()) {
 
-                        boolean take = art.takeOutFromReservation(art, 1);
-                        totalPay = (cantArticles*priceArt)*0.85;
-                        if (take == true) {
-                            speak("Su total a pagar es de\" + totalPay + \"colones. Paga con efectivo o con tarjeta");
-                            while (textToSpeech.isSpeaking()) {
-
-                            }
-                        }else{
-                            speak("No se encotró un artículo con sus especificaciones");
-                            while (textToSpeech.isSpeaking()) {
-
-                            }
                         }
                     }
-
                 }
-
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 4:     //Pregunta con cuanto dinero va a pagar o si desea pagar con la tarjeta registrada
-                //totalPay = cantArticles * priceArt;
+            case 5:     //Pregunta con cuanto dinero va a pagar o si desea pagar con la tarjeta registrada
                 if(paymentMethod.equalsIgnoreCase("efectivo")) {
+                    conversation+= "Con cuánto dinero va a pagar?";
                     speak("Con cuánto dinero va a pagar?");
                     while (textToSpeech.isSpeaking()) {
 
                     }
                 }else{
+                    switchChange = 3;
+                    conversation+= "Desea pagar con la tarjeta"+ clientActually.getCardNumber()+" o la desea cambiar";
                     speak("Desea pagar con la tarjeta"+ clientActually.getCardNumber()+" o la desea cambiar");
                     while (textToSpeech.isSpeaking()) {
 
@@ -460,32 +502,39 @@ public class MainActivity extends AppCompatActivity {
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 5:     //Paga en efectivo, y pregunta si se lo lleva o se le envía por encomienda
-                totalPay = cantArticles * priceArt;
+            case 6:     //Paga en efectivo, y pregunta si se lo lleva o se le envía por encomienda
+
                 double total = payColones - totalPay;
                 if(action.equals("comprar")||action.equalsIgnoreCase("retirar")) {
+
                     if (totalPay > payColones) {
+                        conversation+= "El dinero no es suficiente. Intente de nuevo";
                         speak("El dinero no es suficiente. Intente de nuevo");
                         while (textToSpeech.isSpeaking()) {
 
                         }
                     } else {
+                        if (action.equalsIgnoreCase("retirar")){
+                            takeOutCustomerItem(art);
+                        }
                         art.payWithCash(art, cantArticles, totalPay);
+                        conversation+= "Su vuelto es de " + total + "colones. Se lo lleva o se le envía por encomienda";
                         speak("Su vuelto es de " + total + "colones. Se lo lleva o se le envía por encomienda");
                         while (textToSpeech.isSpeaking()) {
 
                         }
                     }
-                }
-                if(action.equals("apartar")) {
+                }else{
                     if (totalPay > payColones) {
+                        conversation+= "El dinero no es suficiente. Intente de nuevo";
                         speak("El dinero no es suficiente. Intente de nuevo");
                         while (textToSpeech.isSpeaking()) {
 
                         }
                     } else {
-                        art.reserveArticleWithCard(art, cantArticles);
+                        art.reserveArticleWithCash(art, cantArticles,priceArt);
                         clientActually.setArticles(art);
+                        conversation+= "Su vuelto es de " + total + "colones. muchas gracias por su visita, estamos para servirle, esperamos verle pronto ";
                         speak("Su vuelto es de " + total + "colones. muchas gracias por su visita, estamos para servirle, esperamos verle pronto ");
                         while (textToSpeech.isSpeaking()) {
 
@@ -495,95 +544,141 @@ public class MainActivity extends AppCompatActivity {
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 6:   //Enviar por encomienda o llevárselo
-                if(action.equals("comprar")||action.equalsIgnoreCase("apartar")) {
+            case 7:   //Enviar por encomienda o llevárselo
+                if(action.equals("comprar")||action.equalsIgnoreCase("retirar")) {
                     if (delivery.equalsIgnoreCase("llevar") || delivery.equalsIgnoreCase("llevo")) {
+                        conversation+= "Pondremos su artículo en una bolsa de papel, muchas gracias por su visita, estamos para servirle, esperamos verle pronto";
                         speak("Pondremos su artículo en una bolsa de papel, muchas gracias por su visita, estamos para servirle, esperamos verle pronto");
                         while (textToSpeech.isSpeaking()) {
 
                         }
                     } else {
-                        speak("Desea cambiar su código postal" + clientActually.getPostalApart() + "o su dirección actual" + clientActually.getDirection() + "o ambos");
-                        while (textToSpeech.isSpeaking()) {
+                        if (switchChange == 5){
+                            conversation+= "Desea cambiar su dirección" + clientActually.getDirection();
+                            speak("Desea cambiar su dirección" + clientActually.getDirection());
+                            while (textToSpeech.isSpeaking()) {
 
+                            }
+                        }else{
+                            switchChange = 4;
+                            conversation+= "Desea cambiar su código postal" + clientActually.getPostalApart();
+                            speak("Desea cambiar su código postal" + clientActually.getPostalApart());
+                            while (textToSpeech.isSpeaking()) {
+
+                            }
                         }
                     }
                 }
-
-
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 7:   //Enviar por encomienda o llevárselo y preguntar cual es nuevo número de tarjeta
-                if (action.equalsIgnoreCase("comprar")){
-                    if(chanceCardNumber.equalsIgnoreCase("no")||(chanceCardNumber.equalsIgnoreCase("No"))) {
-                        art.payWithCard(art, cantArticles, clientActually.getCardNumber(), clientActually.getName(), clientActually.getLastName());
-                        speak("Se lo lleva o se le envía por encomienda");
-                        while (textToSpeech.isSpeaking()) {
-
-                        }
-                    }
-                }else{
-                    speak("Cuál es su nuevo número de tarjeta?");
-                    while (textToSpeech.isSpeaking()){
-
-                    }
-                }
+            case 8:
                 if (action.equalsIgnoreCase("apartar")){
-                    if(chanceCardNumber.equalsIgnoreCase("no")||(chanceCardNumber.equalsIgnoreCase("No"))) {
-                        art.reserveArticleWithCard(art, cantArticles);
+                    conversation+= "muchas gracias por su visita, estamos para servirle, esperamos verle pronto";
+                    speak("muchas gracias por su visita, estamos para servirle, esperamos verle pronto");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }else{
+                    if (chanceCardNumber.equalsIgnoreCase("no")){
+                        art.payWithCard(art,cantArticles,cardNumber,clientActually.getName(),clientActually.getLastName());
                         clientActually.setArticles(art);
-                        speak("muchas gracias por su visita, estamos para servirle, esperamos verle pronto");
+                        conversation+= "Para llevar o se le envía por encomienda?";
+                        speak("Para llevar o se le envía por encomienda?");
+                        while (textToSpeech.isSpeaking()) {
+
+                        }
+                    }else{
+                        chanceCardNumber = "no";
+                        conversation+= "Cuál es su nuevo número de tarjeta?";
+                        speak("Cuál es su nuevo número de tarjeta?");
                         while (textToSpeech.isSpeaking()) {
 
                         }
                     }
-                }else{
-                    speak("Cuál es su nuevo número de tarjeta?");
-                    while (textToSpeech.isSpeaking()){
+                }
+
+                recordSpeech();  //Speech to text: Client answer
+                break;
+            case 9:
+                if (switchChange == 4){
+                    conversation+= "Cuál es su nuevo código postal?";
+                    speak("Cuál es su nuevo código postal?");
+                    while (textToSpeech.isSpeaking()) {
 
                     }
+                }else{
+                    conversation+= "Cuál es su nueva dirección?";
+                    speak("Cuál es su nueva dirección?");
+                    while (textToSpeech.isSpeaking()) {
+
+                    }
+                }
+
+                recordSpeech();  //Speech to text: Client answer
+                break;
+
+            case 10:
+                conversation+= "Su paquete será enviado a su dirección"+direcction+" Muchas gracias por su visita. Si desea comprar otro artículo, estamos para servirle";
+                speak("Su paquete será enviado a su dirección"+direcction+" Muchas gracias por su visita. Si desea comprar otro artículo, estamos para servirle");
+                while (textToSpeech.isSpeaking()) {
+
                 }
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 8:   //Enviar por encomienda o llevárselo
-                if(changeZipDicc.equalsIgnoreCase("no")||changeZipDicc.equalsIgnoreCase("No")){
-                    speak("Su paquete será enviado a su dirección, Muchas gracias por su visita. Si desea comprar otro artículo, estamos para servirle");
-                    while (textToSpeech.isSpeaking()){
+            case 11:
+                conversation+= "Qué más desea realizar?";
+                speak("Qué más desea realizar?");
+                while (textToSpeech.isSpeaking()) {
 
+                }
+                recordSpeech();  //Speech to text: Client answer
+                break;
+
+            case 12:
+                conversation+= "Hasta la próxima";
+                speak("Hasta la próxima");
+                while (textToSpeech.isSpeaking()) {
+
+                }
+                recordSpeech();  //Speech to text: Client answer
+                break;
+
+            case 13:
+                conversation+= "Tiene los siguientes artículos apartados";
+                speak("Tiene los siguientes artículos apartados");
+                while (textToSpeech.isSpeaking()) {
+
+                }
+                for(Client c : MainActivity.clients){
+                    if(c.getUsername().equals(clientActually.getUsername())) {
+                        for (Article a : c.getArticles()) {
+                            conversation+= a.getName()+"de color"+a.getColor();
+                            speak(a.getName()+"de color"+a.getColor());
+                            while (textToSpeech.isSpeaking()) {
+
+                            }
+                        }
                     }
-                }else{
-                    changeZipDicc = "no";
-                    if(changeZipCode_Direcction.equalsIgnoreCase("ambos")){
-                        speak("Cuál es su nuevo código postal y dirección?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    } if (changeZipCode_Direcction.equalsIgnoreCase("dirección")){
-                        speak("Cuál es su nueva dirección?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }if (changeZipCode_Direcction.equalsIgnoreCase("código")){
-                        speak("Cuál es su nuevo código postal?");
-                        while (textToSpeech.isSpeaking()){
-
-                        }
-                    }
+                }
+                switchChange = 6;
+                conversation+= "Desea realizar algo más";
+                speak("Desea realizar algo más");
+                while (textToSpeech.isSpeaking()) {
 
                 }
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
             case 100:   //Saying good bye command
+                conversation+= "Adiós, fue un placer ayudarte";
                 speak("Adiós, fue un placer ayudarte");
                 while (textToSpeech.isSpeaking()){
 
                 }
-
-                inventoryFinal=runInventory();
-                email = inventoryInitial + conversation + buyed + reservated + inventoryFinal;
+                inventoryFinal+=runInventory();
+                email += inventoryInitial + conversation + buyed + reservated + edited+ deleted + inventoryFinal;
 
                 //send the mail
                 Intent emailIntent = new Intent (Intent.ACTION_SEND);
@@ -597,6 +692,7 @@ public class MainActivity extends AppCompatActivity {
                 finish(); //close the program
                 break;
             default:
+                conversation+= "No he logrado entender, por favor, me puede explicar de nuevo";
                 speak("No he logrado entender, por favor, me puede explicar de nuevo");
                 while (textToSpeech.isSpeaking()){
 
@@ -641,6 +737,31 @@ public class MainActivity extends AppCompatActivity {
         //hay que validar :v
         Toast.makeText(getApplicationContext(),"Puede retirar el artículo "+article.getName(), Toast.LENGTH_LONG).show();
         return true;
+    }
+    public boolean searchCustomerItem(Article article){
+        for(Client c : MainActivity.clients){
+            if(c.getUsername().equals(clientActually.getUsername())){
+                for(Article a : c.getArticles()){
+                    if(a == article){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean takeOutCustomerItem(Article article){
+        for(Client c : MainActivity.clients){
+            if(c.getUsername().equals(clientActually.getUsername())){
+                for(Article a : c.getArticles()){
+                    if(a == article){
+                        c.getArticles().remove(a);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public Article searchArticle(String name, String color, String strin){
@@ -800,10 +921,11 @@ public class MainActivity extends AppCompatActivity {
             factory.maker(10, 200, 5000, "camiseta", "azul", 10, "manga corta");
             factory.maker(10, 200, 5000, "camiseta", "banco", 10, "manga corta");
             factory.maker(10, 200, 5000, "camiseta", "negro", 10, "manga corta");
+
         }catch (AndroidException ex){
             //no se puede hacer el toast aquí
         }
-        inventoryInitial=runInventory();
+        inventoryInitial+=runInventory();
     }
 
     public static Client login (String username, String password){
