@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static String email;
     public static Date date;
     public static ArrayList<Client> clients = new ArrayList<>();
-    public static Client clientActually; //cliente que actualmente está comprando
+    public static Client clientActually; //customer who is currently buying
     public static String inventoryInitial = "Inventario Inicial \n";
     public static String inventoryFinal = "Inventario Final \n";
     public static String conversation = "Conversación \n";
@@ -51,22 +51,23 @@ public class MainActivity extends AppCompatActivity {
     public static String buyed = "Compras \n";
 
 
-    String action;               //Si va a comprar, apartar, retitar un articulo
-    String paymentMethod;        //Si paga en efectivo o con tarjeta
-    String color;                //Guarda el color del articulo
-    String nameArticle;          //Guarda el nombre del articulo
-    String characteristic;       //Guarda la caracteristica del articulo
-    String delivery;             //Guarda si por encomienda o si se lo lleva
-    String chanceCardNumber;     //Guarda si el cliente desea cambiar la tarjeta
-    String direcction = "";                      //Guarda la nueva dirección del cliente
-    String zipCode;                        //Guarda el nuevo código postal del cliente
-    int priceArt;                //Guarda el precio del articulo
-    int cardNumber;              //Guarda el numero de tarjeta
-    double totalPay;                //Guarda el monto total a pagar
-    int cantArticles = 1;            //Guarda la cantidad de articulos que desea la parsona
-    int payColones;              //Guarda la cantidad de dinero con el que se va a pagar
+    String action;               //If you are going to buy, set aside, remove an item
+    String paymentMethod;        //If paying in cash or by card
+    String color;                //Save the color of the article
+    String nameArticle;          //Save the name of the article
+    String characteristic;       //Save the feature of the article
+    String delivery;             //Save if by order or if you take it
+    String chanceCardNumber;     //Save if the customer wishes to change the card (yes or no)
+    String direcction = "";      //Save the new customer address
+    String zipCode;              //Save the new customer zip code
+    int priceArt;                //Save the price of the item
+    int cardNumber;              //Save the card number
+    double totalPay;             //Save the total amount to pay
+    int cantArticles = 1;        //Save the amount of items the parsona wants
+    int payColones;              //Save the amount of money with which you are going to pay
+    int switchChange;            //To know what the answer is yes or no
     Article art;
-    int switchChange;
+
 
 
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.date = new Date();
         this.email = "Artículos comprados \n";
-        this.reservation = new Reservation("Reservation"); //único apartado existente
+        this.reservation = new Reservation("Reservation"); //only existing section
 
 
 
@@ -155,26 +156,28 @@ public class MainActivity extends AppCompatActivity {
     private int getCommand(String speechText){
         String[] partsSpeechText = speechText.split(" "); //Divide el speechText y lo mete en un arreglo para obtener cada palabra por separado
 
-        if((speechText.contains("comprar")) || (speechText.contains("Comprar"))){  //Comprar articulos
+        if((speechText.contains("comprar")) || (speechText.contains("Comprar"))){  //Buy items
+            switchChange = 0;
             action = partsSpeechText[partsSpeechText.length-3];
             nameArticle = partsSpeechText[partsSpeechText.length-1];
             return 1;
         }
-        if((speechText.contains("apartar")) || (speechText.contains("Apartar"))){  //Apartar articulos
+        if((speechText.contains("apartar")) || (speechText.contains("Apartar"))){  //Reserve article
+            switchChange = 0;
             action = partsSpeechText[partsSpeechText.length-3];
             nameArticle = partsSpeechText[partsSpeechText.length-1];
             return 1;
         }
-        if((speechText.contains("retirar")) || (speechText.contains("Retirar"))){  //Retirar articulos
+        if((speechText.contains("retirar")) || (speechText.contains("Retirar"))){  //Retire article
+            switchChange = 0;
             action = partsSpeechText[partsSpeechText.length-3];
             nameArticle = partsSpeechText[partsSpeechText.length-1];
             return 2;
         }
-        if((speechText.contains("consultar")) || (speechText.contains("Consultar"))){  //Consultar articulos apartados
-
+        if((speechText.contains("consultar")) || (speechText.contains("Consultar"))){  //Consult reserve articles
             return 13;
         }
-        if((speechText.contains("color")) || (speechText.contains("Color"))){  //Consultar articulos apartados
+        if((speechText.contains("color")) || (speechText.contains("Color"))){  //Item Color
             color = partsSpeechText[partsSpeechText.length-1];
             return 3;
         }
@@ -231,30 +234,30 @@ public class MainActivity extends AppCompatActivity {
             return 4;
         }
         if((speechText.contains("efectivo")) || (speechText.contains("Efectivo"))||
-                (speechText.contains("tarjeta")) || (speechText.contains("Tarjeta"))){  //pagar con efectivo o con tarjeta
+                (speechText.contains("tarjeta")) || (speechText.contains("Tarjeta"))){  //pay with cash or card
             paymentMethod = partsSpeechText[partsSpeechText.length-1];
             return 5;
         }
-        if((speechText.contains("colones")) || (speechText.contains("Colones"))){  //cantidad de dinero con el que piensa pagar
+        if((speechText.contains("colones")) || (speechText.contains("Colones"))){  //amount of money with which you plan to pay
             payColones =  Integer.parseInt(partsSpeechText[partsSpeechText.length-2]);
             return 6;
         }
         if((speechText.contains("llevo")) || (speechText.contains("Llevo"))||
                 (speechText.contains("encomienda")) || (speechText.contains("Encomienda"))||
-                (speechText.contains("llevar")) || (speechText.contains("Llevar"))){  //cantidad de dinero con el que piensa pagar
+                (speechText.contains("llevar")) || (speechText.contains("Llevar"))){  //if you take it or send it by order
             delivery =  partsSpeechText[partsSpeechText.length-1];
             return 7;
         }
-        if((speechText.contains("número")) || (speechText.contains("Número"))){  //cantidad de dinero con el que piensa pagar
+        if((speechText.contains("número")) || (speechText.contains("Número"))){  //new card number
             payColones =  Integer.parseInt(partsSpeechText[partsSpeechText.length-2]);
             return 6;
         }
-        if((speechText.contains("código")) || (speechText.contains("Codigo"))) {  //Cambiar el código postal
+        if((speechText.contains("código")) || (speechText.contains("Codigo"))) {  //Change zip code
             zipCode = partsSpeechText[partsSpeechText.length-1];
             switchChange = 5;
             return 7;
         }
-        if((speechText.contains("dirección")) || (speechText.contains("Dirección"))) {  //Cambiar la dirección
+        if((speechText.contains("dirección")) || (speechText.contains("Dirección"))) {  //Change address
             for (int i = 1; i < partsSpeechText.length; ++i) {
                 direcction += partsSpeechText[i]+ " ";
             }
@@ -262,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
             return 10;
         }
 
-        else if (speechText.contains("Salir") || speechText.contains("salir") || speechText.contains("bye")){//Salir de la aplicación
+        else if (speechText.contains("Salir") || speechText.contains("salir") || speechText.contains("bye")){//Exit application
             return 100;
         }
         return -1;
@@ -282,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 recordSpeech();   //Speech to text: Client answer
                 break;
-            case 1:     //Buy a article command
+            case 1:     //Buy a article command  Offer item with specifications and ask how many you want
                 if (nameArticle.equalsIgnoreCase("Blusa")) {
                     characteristic = "cuello alto";
                     conversation +="Contamos con blusas de cuello alto, de color blanco, negro y azul. ¿De qué color la quiere?";
@@ -366,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
 
                 recordSpeech();   //Speech to text: Client answer
                 break;
-            case 2:     //Retirar artículo apartado
+            case 2:     //Reire article reserve
                 if (nameArticle.equalsIgnoreCase("Blusa")) {
                     characteristic = "cuello alto";
                 }
@@ -405,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
                 recordSpeech();   //Speech to text: Client answer
                 break;
 
-            case 3:     //Ofrece articulo con las especificaciones y pregunta cuantos desea
+            case 3:     //Ask for the quantity of items, only if it is to buy
                 art = searchArticle(nameArticle,color,characteristic);
 
                 if(action.equalsIgnoreCase("comprar")){
@@ -484,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 5:     //Pregunta con cuanto dinero va a pagar o si desea pagar con la tarjeta registrada
+            case 5:     //Ask how much money you are going to pay or if you want to pay with the registered card
                 if(paymentMethod.equalsIgnoreCase("efectivo")) {
                     conversation+= "Con cuánto dinero va a pagar?";
                     speak("Con cuánto dinero va a pagar?");
@@ -502,10 +505,13 @@ public class MainActivity extends AppCompatActivity {
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 6:     //Paga en efectivo, y pregunta si se lo lleva o se le envía por encomienda
+            case 6:     //Pay in cash, and ask if it is taken or sent by order
 
                 double total = payColones - totalPay;
                 if(action.equals("comprar")||action.equalsIgnoreCase("retirar")) {
+                    if (action.equalsIgnoreCase("retirar")){
+                        art.takeOutFromReservation(art,1);
+                    }
 
                     if (totalPay > payColones) {
                         conversation+= "El dinero no es suficiente. Intente de nuevo";
@@ -544,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
                 recordSpeech();  //Speech to text: Client answer
                 break;
 
-            case 7:   //Enviar por encomienda o llevárselo
+            case 7:   //Send by parcel or take it with you
                 if(action.equals("comprar")||action.equalsIgnoreCase("retirar")) {
                     if (delivery.equalsIgnoreCase("llevar") || delivery.equalsIgnoreCase("llevo")) {
                         conversation+= "Pondremos su artículo en una bolsa de papel, muchas gracias por su visita, estamos para servirle, esperamos verle pronto";
@@ -581,6 +587,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }else{
                     if (chanceCardNumber.equalsIgnoreCase("no")){
+                        art.takeOutFromReservation(art,1);
                         art.payWithCard(art,cantArticles,cardNumber,clientActually.getName(),clientActually.getLastName());
                         clientActually.setArticles(art);
                         conversation+= "Para llevar o se le envía por encomienda?";
@@ -738,7 +745,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),"Puede retirar el artículo "+article.getName(), Toast.LENGTH_LONG).show();
         return true;
     }
-    public boolean searchCustomerItem(Article article){
+    public boolean searchCustomerItem(Article article){ //Search for the article in the articles reserved by the client, return true if I find the article
         for(Client c : MainActivity.clients){
             if(c.getUsername().equals(clientActually.getUsername())){
                 for(Article a : c.getArticles()){
@@ -750,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-    public boolean takeOutCustomerItem(Article article){
+    public boolean takeOutCustomerItem(Article article){//Search for the article in the articles reserved by the client and delete it
         for(Client c : MainActivity.clients){
             if(c.getUsername().equals(clientActually.getUsername())){
                 for(Article a : c.getArticles()){
@@ -764,7 +771,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public Article searchArticle(String name, String color, String strin){
+    public Article searchArticle(String name, String color, String strin){//Search items in the inventory
         for (Article a : inventory.getArticles()){
             if (a instanceof Shirt) {
                 if (a.getName().equals(name) && a.getColor().equals(color) && ((Shirt) a).getManga().equals(strin)) {
@@ -806,18 +813,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
-    public Article searchSwimwear (String name, String color, int pieces){
-        for (Article a : inventory.getArticles()){
-            if (a instanceof Swimwear){
-                if (a.getName().equals(name) && a.getColor().equals(color) && ((Blouse) a).getPrice()==pieces){
-                    return a;
-                }
-            }
-        }
-        return null;
-    }
 
-    public Client searchClient (String username){
+
+    public Client searchClient (String username){ //Search customers
         for (Client c : clients){
             if (c.getUsername().equals(username)){
                 return c;
